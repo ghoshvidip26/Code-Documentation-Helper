@@ -1,0 +1,629 @@
+loading.js
+
+Menu
+Using App Router
+Features available in /app
+Latest Version
+16.1.1
+Getting Started
+Installation
+Project Structure
+Layouts and Pages
+Linking and Navigating
+Server and Client Components
+Cache Components
+Fetching Data
+Updating Data
+Caching and Revalidating
+Error Handling
+CSS
+Image Optimization
+Font Optimization
+Metadata and OG images
+Route Handlers
+Proxy
+Deploying
+Upgrading
+Guides
+Analytics
+Authentication
+Backend for Frontend
+Caching
+CI Build Caching
+Content Security Policy
+CSS-in-JS
+Custom Server
+Data Security
+Debugging
+Draft Mode
+Environment Variables
+Forms
+ISR
+Instrumentation
+Internationalization
+JSON-LD
+Lazy Loading
+Development Environment
+Next.js MCP Server
+MDX
+Memory Usage
+Migrating
+App Router
+Create React App
+Vite
+Multi-tenant
+Multi-zones
+OpenTelemetry
+Package Bundling
+Prefetching
+Production
+PWAs
+Redirecting
+Sass
+Scripts
+Self-Hosting
+SPAs
+Static Exports
+Tailwind CSS v3
+Testing
+Cypress
+Jest
+Playwright
+Vitest
+Third Party Libraries
+Upgrading
+Codemods
+Version 14
+Version 15
+Version 16
+Videos
+API Reference
+Directives
+use cache
+use cache: private
+use cache: remote
+use client
+use server
+Components
+Font
+Form Component
+Image Component
+Link Component
+Script Component
+File-system conventions
+default.js
+Dynamic Segments
+error.js
+forbidden.js
+instrumentation.js
+instrumentation-client.js
+Intercepting Routes
+layout.js
+loading.js
+mdx-components.js
+not-found.js
+page.js
+Parallel Routes
+proxy.js
+public
+route.js
+Route Groups
+Route Segment Config
+src
+template.js
+unauthorized.js
+Metadata Files
+favicon, icon, and apple-icon
+manifest.json
+opengraph-image and twitter-image
+robots.txt
+sitemap.xml
+Functions
+after
+cacheLife
+cacheTag
+connection
+cookies
+draftMode
+fetch
+forbidden
+generateImageMetadata
+generateMetadata
+generateSitemaps
+generateStaticParams
+generateViewport
+headers
+ImageResponse
+NextRequest
+NextResponse
+notFound
+permanentRedirect
+redirect
+refresh
+revalidatePath
+revalidateTag
+unauthorized
+unstable_cache
+unstable_noStore
+unstable_rethrow
+updateTag
+useLinkStatus
+useParams
+usePathname
+useReportWebVitals
+useRouter
+useSearchParams
+useSelectedLayoutSegment
+useSelectedLayoutSegments
+userAgent
+Configuration
+next.config.js
+experimental.adapterPath
+allowedDevOrigins
+appDir
+assetPrefix
+authInterrupts
+basePath
+browserDebugInfoInTerminal
+cacheComponents
+cacheHandlers
+cacheLife
+compress
+crossOrigin
+cssChunking
+devIndicators
+distDir
+env
+expireTime
+exportPathMap
+generateBuildId
+generateEtags
+headers
+htmlLimitedBots
+httpAgentOptions
+images
+cacheHandler
+inlineCss
+isolatedDevBuild
+logging
+mdxRs
+onDemandEntries
+optimizePackageImports
+output
+pageExtensions
+poweredByHeader
+productionBrowserSourceMaps
+proxyClientMaxBodySize
+reactCompiler
+reactMaxHeadersLength
+reactStrictMode
+redirects
+rewrites
+sassOptions
+serverActions
+serverComponentsHmrCache
+serverExternalPackages
+staleTimes
+staticGeneration*
+taint
+trailingSlash
+transpilePackages
+turbopack
+turbopackFileSystemCache
+typedRoutes
+typescript
+urlImports
+useLightningcss
+viewTransition
+webpack
+webVitalsAttribution
+TypeScript
+ESLint
+CLI
+create-next-app
+next CLI
+Edge Runtime
+Turbopack
+Getting Started
+Installation
+Project Structure
+Images
+Fonts
+CSS
+Deploying
+Guides
+Analytics
+Authentication
+Babel
+CI Build Caching
+Content Security Policy
+CSS-in-JS
+Custom Server
+Debugging
+Draft Mode
+Environment Variables
+Forms
+ISR
+Instrumentation
+Internationalization
+Lazy Loading
+MDX
+Migrating
+App Router
+Create React App
+Vite
+Multi-Zones
+OpenTelemetry
+Package Bundling
+PostCSS
+Preview Mode
+Production
+Redirecting
+Sass
+Scripts
+Self-Hosting
+Static Exports
+Tailwind CSS
+Testing
+Cypress
+Jest
+Playwright
+Vitest
+Third Party Libraries
+Upgrading
+Codemods
+Version 10
+Version 11
+Version 12
+Version 13
+Version 14
+Version 9
+Building Your Application
+Routing
+Pages and Layouts
+Dynamic Routes
+Linking and Navigating
+Custom App
+Custom Document
+API Routes
+Custom Errors
+Rendering
+Server-side Rendering (SSR)
+Static Site Generation (SSG)
+Automatic Static Optimization
+Client-side Rendering (CSR)
+Data Fetching
+getStaticProps
+getStaticPaths
+Forms and Mutations
+getServerSideProps
+Client-side Fetching
+Configuring
+Error Handling
+API Reference
+Components
+Font
+Form
+Head
+Image
+Image (Legacy)
+Link
+Script
+File-system conventions
+instrumentation.js
+Proxy
+public
+src Directory
+Functions
+getInitialProps
+getServerSideProps
+getStaticPaths
+getStaticProps
+NextRequest
+NextResponse
+useReportWebVitals
+useRouter
+userAgent
+Configuration
+next.config.js Options
+experimental.adapterPath
+allowedDevOrigins
+assetPrefix
+basePath
+bundlePagesRouterDependencies
+compress
+crossOrigin
+devIndicators
+distDir
+env
+exportPathMap
+generateBuildId
+generateEtags
+headers
+httpAgentOptions
+images
+isolatedDevBuild
+onDemandEntries
+optimizePackageImports
+output
+pageExtensions
+poweredByHeader
+productionBrowserSourceMaps
+experimental.proxyClientMaxBodySize
+reactStrictMode
+redirects
+rewrites
+serverExternalPackages
+trailingSlash
+transpilePackages
+turbopack
+typescript
+urlImports
+useLightningcss
+webpack
+webVitalsAttribution
+TypeScript
+ESLint
+CLI
+create-next-app CLI
+next CLI
+Edge Runtime
+Turbopack
+Architecture
+Accessibility
+Fast Refresh
+Next.js Compiler
+Supported Browsers
+Community
+Contribution Guide
+Rspack
+On this page
+Reference
+Parameters
+Behavior
+Navigation
+Instant Loading States
+SEO
+Status Codes
+Browser limits
+Platform Support
+Examples
+Streaming with Suspense
+Version History
+Edit this page on GitHub
+Scroll to top
+API Reference
+File-system conventions
+loading.js
+Copy page
+loading.js
+Last updated
+October 27, 2025
+The special file
+loading.js
+helps you create meaningful Loading UI with
+React Suspense
+. With this convention, you can show an
+instant loading state
+from the server while the content of a route segment streams in. The new content is automatically swapped in once complete.
+app/feed/loading.tsx
+TypeScript
+JavaScript
+TypeScript
+export
+default
+function
+Loading
+() {
+// Or a custom loading skeleton component
+return
+<
+p
+>Loading...</
+p
+>
+}
+Inside the
+loading.js
+file, you can add any light-weight loading UI. You may find it helpful to use the
+React Developer Tools
+to manually toggle Suspense boundaries.
+By default, this file is a
+Server Component
+- but can also be used as a Client Component through the
+"use client"
+directive.
+Reference
+Parameters
+Loading UI components do not accept any parameters.
+Behavior
+Navigation
+The Fallback UI is
+prefetched
+, making navigation immediate unless prefetching hasn't completed.
+Navigation is interruptible, meaning changing routes does not need to wait for the content of the route to fully load before navigating to another route.
+Shared layouts remain interactive while new route segments load.
+Instant Loading States
+An instant loading state is fallback UI that is shown immediately upon navigation. You can pre-render loading indicators such as skeletons and spinners, or a small but meaningful part of future screens such as a cover photo, title, etc. This helps users understand the app is responding and provides a better user experience.
+Create a loading state by adding a
+loading.js
+file inside a folder.
+app/dashboard/loading.tsx
+TypeScript
+JavaScript
+TypeScript
+export
+default
+function
+Loading
+() {
+// You can add any UI inside Loading, including a Skeleton.
+return
+<
+LoadingSkeleton
+/>
+}
+In the same folder,
+loading.js
+will be nested inside
+layout.js
+. It will automatically wrap the
+page.js
+file and any children below in a
+<Suspense>
+boundary.
+SEO
+For bots that only scrape static HTML, and cannot execute JavaScript like a full browser, such as Twitterbot, Next.js resolves
+generateMetadata
+before streaming UI, and metadata is placed in the
+<head>
+of the initial HTML.
+Otherwise,
+streaming metadata
+may be used. Next.js automatically detects user agents to choose between blocking and streaming behavior.
+Since streaming is server-rendered, it does not impact SEO. You can use the
+Rich Results Test
+tool from Google to see how your page appears to Google's web crawlers and view the serialized HTML (
+source
+).
+Status Codes
+When streaming, a
+200
+status code will be returned to signal that the request was successful.
+The server can still communicate errors or issues to the client within the streamed content itself, for example, when using
+redirect
+or
+notFound
+. Because the response headers have already been sent to the client, the status code of the response cannot be updated.
+For example, when a 404 page is streamed to the client, Next.js includes a
+<meta name="robots" content="noindex">
+tag in the streamed HTML. This prevents search engines from indexing that URL even if the HTTP status is 200. See Google’s guidance on the
+robots
+meta tag
+.
+Some crawlers may label these responses as “soft 404s”. In the streaming case, this does not lead to indexation because the page is explicitly marked
+noindex
+in the HTML.
+If you need a 404 status, for compliance or analytics, ensure the resource exists before the response body is streamed, so that the server can set the HTTP status code.
+You can run this check in
+proxy
+to rewrite missing slugs to a not-found route, or
+produce a 404 response
+. Keep proxy checks fast, and avoid fetching full content there.
+When is the response body streamed?
+The response body starts streaming when a Suspense fallback renders (for example, a
+loading.tsx
+) or when a Server Component suspends under a
+Suspense
+boundary. Place
+notFound()
+before those boundaries and before any
+await
+that may suspend.
+To start streaming, the response headers must be set. This is why it is not possible to change the status code after streaming started.
+Browser limits
+Some browsers
+buffer a streaming response. You may not see the streamed response until the response exceeds 1024 bytes. This typically only affects “hello world” applications, but not real applications.
+Platform Support
+Deployment Option
+Supported
+Node.js server
+Yes
+Docker container
+Yes
+Static export
+No
+Adapters
+Platform-specific
+Learn how to
+configure streaming
+when self-hosting Next.js.
+Examples
+Streaming with Suspense
+In addition to
+loading.js
+, you can also manually create Suspense Boundaries for your own UI components. The App Router supports streaming with
+Suspense
+.
+<Suspense>
+works by wrapping a component that performs an asynchronous action (e.g. fetch data), showing fallback UI (e.g. skeleton, spinner) while it's happening, and then swapping in your component once the action completes.
+app/dashboard/page.tsx
+TypeScript
+JavaScript
+TypeScript
+import
+{ Suspense }
+from
+'react'
+import
+{ PostFeed
+,
+Weather }
+from
+'./Components'
+export
+default
+function
+Posts
+() {
+return
+(
+<
+section
+>
+<
+Suspense
+fallback
+=
+{<
+p
+>Loading feed...</
+p
+>}>
+<
+PostFeed
+/>
+</
+Suspense
+>
+<
+Suspense
+fallback
+=
+{<
+p
+>Loading weather...</
+p
+>}>
+<
+Weather
+/>
+</
+Suspense
+>
+</
+section
+>
+)
+}
+By using Suspense, you get the benefits of:
+Streaming Server Rendering
+- Progressively rendering HTML from the server to the client.
+Selective Hydration
+- React prioritizes what components to make interactive first based on user interaction.
+For more Suspense examples and use cases, please see the
+React Documentation
+.
+Version History
+Version
+Changes
+v13.0.0
+loading
+introduced.
+Previous
+layout.js
+Next
+mdx-components.js
+Was this helpful?
+supported.
+Send

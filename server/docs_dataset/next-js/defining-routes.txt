@@ -1,0 +1,1040 @@
+Layouts and Pages
+
+Menu
+Using App Router
+Features available in /app
+Latest Version
+16.1.1
+Getting Started
+Installation
+Project Structure
+Layouts and Pages
+Linking and Navigating
+Server and Client Components
+Cache Components
+Fetching Data
+Updating Data
+Caching and Revalidating
+Error Handling
+CSS
+Image Optimization
+Font Optimization
+Metadata and OG images
+Route Handlers
+Proxy
+Deploying
+Upgrading
+Guides
+Analytics
+Authentication
+Backend for Frontend
+Caching
+CI Build Caching
+Content Security Policy
+CSS-in-JS
+Custom Server
+Data Security
+Debugging
+Draft Mode
+Environment Variables
+Forms
+ISR
+Instrumentation
+Internationalization
+JSON-LD
+Lazy Loading
+Development Environment
+Next.js MCP Server
+MDX
+Memory Usage
+Migrating
+App Router
+Create React App
+Vite
+Multi-tenant
+Multi-zones
+OpenTelemetry
+Package Bundling
+Prefetching
+Production
+PWAs
+Redirecting
+Sass
+Scripts
+Self-Hosting
+SPAs
+Static Exports
+Tailwind CSS v3
+Testing
+Cypress
+Jest
+Playwright
+Vitest
+Third Party Libraries
+Upgrading
+Codemods
+Version 14
+Version 15
+Version 16
+Videos
+API Reference
+Directives
+use cache
+use cache: private
+use cache: remote
+use client
+use server
+Components
+Font
+Form Component
+Image Component
+Link Component
+Script Component
+File-system conventions
+default.js
+Dynamic Segments
+error.js
+forbidden.js
+instrumentation.js
+instrumentation-client.js
+Intercepting Routes
+layout.js
+loading.js
+mdx-components.js
+not-found.js
+page.js
+Parallel Routes
+proxy.js
+public
+route.js
+Route Groups
+Route Segment Config
+src
+template.js
+unauthorized.js
+Metadata Files
+favicon, icon, and apple-icon
+manifest.json
+opengraph-image and twitter-image
+robots.txt
+sitemap.xml
+Functions
+after
+cacheLife
+cacheTag
+connection
+cookies
+draftMode
+fetch
+forbidden
+generateImageMetadata
+generateMetadata
+generateSitemaps
+generateStaticParams
+generateViewport
+headers
+ImageResponse
+NextRequest
+NextResponse
+notFound
+permanentRedirect
+redirect
+refresh
+revalidatePath
+revalidateTag
+unauthorized
+unstable_cache
+unstable_noStore
+unstable_rethrow
+updateTag
+useLinkStatus
+useParams
+usePathname
+useReportWebVitals
+useRouter
+useSearchParams
+useSelectedLayoutSegment
+useSelectedLayoutSegments
+userAgent
+Configuration
+next.config.js
+experimental.adapterPath
+allowedDevOrigins
+appDir
+assetPrefix
+authInterrupts
+basePath
+browserDebugInfoInTerminal
+cacheComponents
+cacheHandlers
+cacheLife
+compress
+crossOrigin
+cssChunking
+devIndicators
+distDir
+env
+expireTime
+exportPathMap
+generateBuildId
+generateEtags
+headers
+htmlLimitedBots
+httpAgentOptions
+images
+cacheHandler
+inlineCss
+isolatedDevBuild
+logging
+mdxRs
+onDemandEntries
+optimizePackageImports
+output
+pageExtensions
+poweredByHeader
+productionBrowserSourceMaps
+proxyClientMaxBodySize
+reactCompiler
+reactMaxHeadersLength
+reactStrictMode
+redirects
+rewrites
+sassOptions
+serverActions
+serverComponentsHmrCache
+serverExternalPackages
+staleTimes
+staticGeneration*
+taint
+trailingSlash
+transpilePackages
+turbopack
+turbopackFileSystemCache
+typedRoutes
+typescript
+urlImports
+useLightningcss
+viewTransition
+webpack
+webVitalsAttribution
+TypeScript
+ESLint
+CLI
+create-next-app
+next CLI
+Edge Runtime
+Turbopack
+Getting Started
+Installation
+Project Structure
+Images
+Fonts
+CSS
+Deploying
+Guides
+Analytics
+Authentication
+Babel
+CI Build Caching
+Content Security Policy
+CSS-in-JS
+Custom Server
+Debugging
+Draft Mode
+Environment Variables
+Forms
+ISR
+Instrumentation
+Internationalization
+Lazy Loading
+MDX
+Migrating
+App Router
+Create React App
+Vite
+Multi-Zones
+OpenTelemetry
+Package Bundling
+PostCSS
+Preview Mode
+Production
+Redirecting
+Sass
+Scripts
+Self-Hosting
+Static Exports
+Tailwind CSS
+Testing
+Cypress
+Jest
+Playwright
+Vitest
+Third Party Libraries
+Upgrading
+Codemods
+Version 10
+Version 11
+Version 12
+Version 13
+Version 14
+Version 9
+Building Your Application
+Routing
+Pages and Layouts
+Dynamic Routes
+Linking and Navigating
+Custom App
+Custom Document
+API Routes
+Custom Errors
+Rendering
+Server-side Rendering (SSR)
+Static Site Generation (SSG)
+Automatic Static Optimization
+Client-side Rendering (CSR)
+Data Fetching
+getStaticProps
+getStaticPaths
+Forms and Mutations
+getServerSideProps
+Client-side Fetching
+Configuring
+Error Handling
+API Reference
+Components
+Font
+Form
+Head
+Image
+Image (Legacy)
+Link
+Script
+File-system conventions
+instrumentation.js
+Proxy
+public
+src Directory
+Functions
+getInitialProps
+getServerSideProps
+getStaticPaths
+getStaticProps
+NextRequest
+NextResponse
+useReportWebVitals
+useRouter
+userAgent
+Configuration
+next.config.js Options
+experimental.adapterPath
+allowedDevOrigins
+assetPrefix
+basePath
+bundlePagesRouterDependencies
+compress
+crossOrigin
+devIndicators
+distDir
+env
+exportPathMap
+generateBuildId
+generateEtags
+headers
+httpAgentOptions
+images
+isolatedDevBuild
+onDemandEntries
+optimizePackageImports
+output
+pageExtensions
+poweredByHeader
+productionBrowserSourceMaps
+experimental.proxyClientMaxBodySize
+reactStrictMode
+redirects
+rewrites
+serverExternalPackages
+trailingSlash
+transpilePackages
+turbopack
+typescript
+urlImports
+useLightningcss
+webpack
+webVitalsAttribution
+TypeScript
+ESLint
+CLI
+create-next-app CLI
+next CLI
+Edge Runtime
+Turbopack
+Architecture
+Accessibility
+Fast Refresh
+Next.js Compiler
+Supported Browsers
+Community
+Contribution Guide
+Rspack
+On this page
+Creating a page
+Creating a layout
+Creating a nested route
+Nesting layouts
+Creating a dynamic segment
+Rendering with search params
+What to use and when
+Linking between pages
+Route Props Helpers
+API Reference
+Edit this page on GitHub
+Scroll to top
+App Router
+Getting Started
+Layouts and Pages
+Copy page
+Layouts and Pages
+Last updated
+November 17, 2025
+Next.js uses
+file-system based routing
+, meaning you can use folders and files to define routes. This page will guide you through how to create layouts and pages, and link between them.
+Creating a page
+A
+page
+is UI that is rendered on a specific route. To create a page, add a
+page
+file
+inside the
+app
+directory and default export a React component. For example, to create an index page (
+/
+):
+app/page.tsx
+TypeScript
+JavaScript
+TypeScript
+export
+default
+function
+Page
+() {
+return
+<
+h1
+>Hello Next.js!</
+h1
+>
+}
+Creating a layout
+A layout is UI that is
+shared
+between multiple pages. On navigation, layouts preserve state, remain interactive, and do not rerender.
+You can define a layout by default exporting a React component from a
+layout
+file
+. The component should accept a
+children
+prop which can be a page or another
+layout
+.
+For example, to create a layout that accepts your index page as child, add a
+layout
+file inside the
+app
+directory:
+app/layout.tsx
+TypeScript
+JavaScript
+TypeScript
+export
+default
+function
+DashboardLayout
+({
+children
+,
+}
+:
+{
+children
+:
+React
+.
+ReactNode
+}) {
+return
+(
+<
+html
+lang
+=
+"en"
+>
+<
+body
+>
+{
+/* Layout UI */
+}
+{
+/* Place children where you want to render a page or nested layout */
+}
+<
+main
+>{children}</
+main
+>
+</
+body
+>
+</
+html
+>
+)
+}
+The layout above is called a
+root layout
+because it's defined at the root of the
+app
+directory. The root layout is
+required
+and must contain
+html
+and
+body
+tags.
+Creating a nested route
+A nested route is a route composed of multiple URL segments. For example, the
+/blog/[slug]
+route is composed of three segments:
+/
+(Root Segment)
+blog
+(Segment)
+[slug]
+(Leaf Segment)
+In Next.js:
+Folders
+are used to define the route segments that map to URL segments.
+Files
+(like
+page
+and
+layout
+) are used to create UI that is shown for a segment.
+To create nested routes, you can nest folders inside each other. For example, to add a route for
+/blog
+, create a folder called
+blog
+in the
+app
+directory. Then, to make
+/blog
+publicly accessible, add a
+page.tsx
+file:
+app/blog/page.tsx
+TypeScript
+JavaScript
+TypeScript
+// Dummy imports
+import
+{ getPosts }
+from
+'@/lib/posts'
+import
+{ Post }
+from
+'@/ui/post'
+export
+default
+async
+function
+Page
+() {
+const
+posts
+=
+await
+getPosts
+()
+return
+(
+<
+ul
+>
+{
+posts
+.map
+((post)
+=>
+(
+<
+Post
+key
+=
+{
+post
+.id}
+post
+=
+{post} />
+))}
+</
+ul
+>
+)
+}
+You can continue nesting folders to create nested routes. For example, to create a route for a specific blog post, create a new
+[slug]
+folder inside
+blog
+and add a
+page
+file:
+app/blog/[slug]/page.tsx
+TypeScript
+JavaScript
+TypeScript
+function
+generateStaticParams
+() {}
+export
+default
+function
+Page
+() {
+return
+<
+h1
+>Hello, Blog Post Page!</
+h1
+>
+}
+Wrapping a folder name in square brackets (e.g.
+[slug]
+) creates a
+dynamic route segment
+which is used to generate multiple pages from data. e.g. blog posts, product pages, etc.
+Nesting layouts
+By default, layouts in the folder hierarchy are also nested, which means they wrap child layouts via their
+children
+prop. You can nest layouts by adding
+layout
+inside specific route segments (folders).
+For example, to create a layout for the
+/blog
+route, add a new
+layout
+file inside the
+blog
+folder.
+app/blog/layout.tsx
+TypeScript
+JavaScript
+TypeScript
+export
+default
+function
+BlogLayout
+({
+children
+,
+}
+:
+{
+children
+:
+React
+.
+ReactNode
+}) {
+return
+<
+section
+>{children}</
+section
+>
+}
+If you were to combine the two layouts above, the root layout (
+app/layout.js
+) would wrap the blog layout (
+app/blog/layout.js
+), which would wrap the blog (
+app/blog/page.js
+) and blog post page (
+app/blog/[slug]/page.js
+).
+Creating a dynamic segment
+Dynamic segments
+allow you to create routes that are generated from data. For example, instead of manually creating a route for each individual blog post, you can create a dynamic segment to generate the routes based on blog post data.
+To create a dynamic segment, wrap the segment (folder) name in square brackets:
+[segmentName]
+. For example, in the
+app/blog/[slug]/page.tsx
+route, the
+[slug]
+is the dynamic segment.
+app/blog/[slug]/page.tsx
+TypeScript
+JavaScript
+TypeScript
+export
+default
+async
+function
+BlogPostPage
+({
+params
+,
+}
+:
+{
+params
+:
+Promise
+<{ slug
+:
+string
+}>
+}) {
+const
+{
+slug
+}
+=
+await
+params
+const
+post
+=
+await
+getPost
+(slug)
+return
+(
+<
+div
+>
+<
+h1
+>{
+post
+.title}</
+h1
+>
+<
+p
+>{
+post
+.content}</
+p
+>
+</
+div
+>
+)
+}
+Learn more about
+Dynamic Segments
+and the
+params
+props.
+Nested
+layouts within Dynamic Segments
+, can also access the
+params
+props.
+Rendering with search params
+In a Server Component
+page
+, you can access search parameters using the
+searchParams
+prop:
+app/page.tsx
+TypeScript
+JavaScript
+TypeScript
+export
+default
+async
+function
+Page
+({
+searchParams
+,
+}
+:
+{
+searchParams
+:
+Promise
+<{ [key
+:
+string
+]
+:
+string
+|
+string
+[]
+|
+undefined
+}>
+}) {
+const
+filters
+=
+(
+await
+searchParams).filters
+}
+Using
+searchParams
+opts your page into
+dynamic rendering
+because it requires an incoming request to read the search parameters from.
+Client Components can read search params using the
+useSearchParams
+hook.
+Learn more about
+useSearchParams
+in
+statically rendered
+and
+dynamically rendered
+routes.
+What to use and when
+Use the
+searchParams
+prop when you need search parameters to
+load data for the page
+(e.g. pagination, filtering from a database).
+Use
+useSearchParams
+when search parameters are used
+only on the client
+(e.g. filtering a list already loaded via props).
+As a small optimization, you can use
+new URLSearchParams(window.location.search)
+in
+callbacks or event handlers
+to read search params without triggering re-renders.
+Linking between pages
+You can use the
+<Link>
+component
+to navigate between routes.
+<Link>
+is a built-in Next.js component that extends the HTML
+<a>
+tag to provide
+prefetching
+and
+client-side navigation
+.
+For example, to generate a list of blog posts, import
+<Link>
+from
+next/link
+and pass a
+href
+prop to the component:
+app/ui/post.tsx
+TypeScript
+JavaScript
+TypeScript
+import
+Link
+from
+'next/link'
+export
+default
+async
+function
+Post
+({ post }) {
+const
+posts
+=
+await
+getPosts
+()
+return
+(
+<
+ul
+>
+{
+posts
+.map
+((post)
+=>
+(
+<
+li
+key
+=
+{
+post
+.slug}>
+<
+Link
+href
+=
+{
+`/blog/
+${
+post
+.slug
+}
+`
+}>{
+post
+.title}</
+Link
+>
+</
+li
+>
+))}
+</
+ul
+>
+)
+}
+Good to know
+:
+<Link>
+is the primary way to navigate between routes in Next.js. You can also use the
+useRouter
+hook
+for more advanced navigation.
+Route Props Helpers
+Next.js exposes utility types that infer
+params
+and named slots from your route structure:
+PageProps
+: Props for
+page
+components, including
+params
+and
+searchParams
+.
+LayoutProps
+: Props for
+layout
+components, including
+children
+and any named slots (e.g. folders like
+@analytics
+).
+These are globally available helpers, generated when running either
+next dev
+,
+next build
+or
+next typegen
+.
+app/blog/[slug]/page.tsx
+export
+default
+async
+function
+Page
+(props
+:
+PageProps
+<
+'/
+blog
+/[slug]'
+>) {
+const
+{
+slug
+}
+=
+await
+props
+.params
+return
+<
+h1
+>Blog post: {slug}</
+h1
+>
+}
+app/dashboard/layout.tsx
+export
+default
+function
+Layout
+(props
+:
+LayoutProps
+<
+'/
+dashboard
+'
+>) {
+return
+(
+<
+section
+>
+{
+props
+.children}
+{
+/* If you have app/
+dashboard
+/@analytics, it appears as a typed slot: */
+}
+{
+/* {props.analytics} */
+}
+</
+section
+>
+)
+}
+Good to know
+Static routes resolve
+params
+to
+{}
+.
+PageProps
+,
+LayoutProps
+are global helpers — no imports required.
+Types are generated during
+next dev
+,
+next build
+or
+next typegen
+.
+API Reference
+Learn more about the features mentioned in this page by reading the API Reference.
+Linking and Navigating
+Learn how the built-in navigation optimizations work, including prefetching, prerendering, and client-side navigation, and how to optimize navigation for dynamic routes and slow networks.
+layout.js
+API reference for the layout.js file.
+page.js
+API reference for the page.js file.
+Link Component
+Enable fast client-side navigation with the built-in `next/link` component.
+Dynamic Segments
+Dynamic Route Segments can be used to programmatically generate route segments from dynamic data.
+Previous
+Project Structure
+Next
+Linking and Navigating
+Was this helpful?
+supported.
+Send

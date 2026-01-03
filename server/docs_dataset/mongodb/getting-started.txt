@@ -1,0 +1,320 @@
+Getting Started with MongoDB
+
+Getting Started with MongoDB - Database Manual - MongoDB Docs
+MongoDB.local SF, Jan 15: See the speaker lineup & ship your AI vision faster. Use WEB50 to save 50%
+Find out more >
+Products
+Platform
+Atlas
+Build and scale with an AI-ready platform
+Platform Services
+Database
+Deploy a multi-cloud database
+Search
+Deliver engaging search experiences
+Vector Search
+Design intelligent apps with gen AI
+Stream Processing
+Integrate MongoDB and Kafka
+Self Managed
+Enterprise Advanced
+Run and manage MongoDB yourself
+Community Edition
+Develop locally with MongoDB
+Tools
+Compass
+Work with MongoDB data in a GUI
+Integrations
+Integrations with third-party services
+Relational Migrator
+Migrate to MongoDB with confidence
+View All Products
+Explore our full developer suite
+arrow-right
+MongoDB 8.0
+Our fastest version ever
+arrow-right
+Build with MongoDB Atlas
+Get started for free in minutes
+Sign Up
+Test Enterprise Advanced
+Develop with MongoDB on-premises
+Download
+Try Community Edition
+Explore the latest version of MongoDB
+Download
+Resources
+Documentation
+Atlas Documentation
+Get started using Atlas
+Server Documentation
+Learn to use MongoDB
+Tools and Connectors
+Learn how to connect to MongoDB
+MongoDB Drivers
+Use drivers and libraries for MongoDB
+Resources Hub
+Get help building the next big thing with MongoDB
+arrow-right
+Connect
+Community
+Join a global community of developers
+Courses and Certification
+Learn for free from MongoDB
+Events and Webinars
+Find an event or webinar near you
+Solutions
+Use cases
+Artificial Intelligence
+Modernization
+Payments
+Serverless Development
+Gaming
+Intelligent Search
+Edge and Mobile
+Industries
+Financial Services
+Telecommunications
+Healthcare
+Retail
+Public Sector
+Manufacturing
+Solutions Library
+Organized and tailored solutions to kick-start projects
+arrow-right
+AI Applications Program
+Expedite your AI journey with expert guidance
+Learn more
+arrow-right
+Startups and AI Innovators
+For world-changing ideas and AI pioneers
+Learn more
+arrow-right
+Customer Case Studies
+Hear directly from our users
+See Stories
+arrow-right
+Company
+Careers
+Start your next adventure
+Blog
+Read articles and announcements
+Newsroom
+Read press releases and news stories
+Partners
+Learn about our partner ecosystem
+Leadership
+Meet our executive team
+Company
+Learn more about who we are
+Contact Us
+Reach out to MongoDB
+Connect with an expert
+arrow-right
+Investors
+Visit our investor portal
+Learn more
+arrow-right
+Pricing
+Eng
+Support
+Sign In
+menu-vertical
+Get Started
+Products
+Platform
+Atlas
+Build and scale with an AI-ready platform
+Platform Services
+Database
+Deploy a multi-cloud database
+Search
+Deliver engaging search experiences
+Vector Search
+Design intelligent apps with gen AI
+Stream Processing
+Integrate MongoDB and Kafka
+Self Managed
+Enterprise Advanced
+Run and manage MongoDB yourself
+Community Edition
+Develop locally with MongoDB
+Tools
+Compass
+Work with MongoDB data in a GUI
+Integrations
+Integrations with third-party services
+Relational Migrator
+Migrate to MongoDB with confidence
+View All Products
+Explore our full developer suite
+arrow-right
+MongoDB 8.0
+Our fastest version ever
+arrow-right
+Build with MongoDB Atlas
+Get started for free in minutes
+Sign Up
+Test Enterprise Advanced
+Develop with MongoDB on-premises
+Download
+Try Community Edition
+Explore the latest version of MongoDB
+Download
+Resources
+Documentation
+Atlas Documentation
+Get started using Atlas
+Server Documentation
+Learn to use MongoDB
+Tools and Connectors
+Learn how to connect to MongoDB
+MongoDB Drivers
+Use drivers and libraries for MongoDB
+Resources Hub
+Get help building the next big thing with MongoDB
+arrow-right
+Connect
+Community
+Join a global community of developers
+Courses and Certification
+Learn for free from MongoDB
+Events and Webinars
+Find an event or webinar near you
+Solutions
+Use cases
+Artificial Intelligence
+Modernization
+Payments
+Serverless Development
+Gaming
+Intelligent Search
+Edge and Mobile
+Industries
+Financial Services
+Telecommunications
+Healthcare
+Retail
+Public Sector
+Manufacturing
+Solutions Library
+Organized and tailored solutions to kick-start projects
+arrow-right
+AI Applications Program
+Expedite your AI journey with expert guidance
+Learn more
+arrow-right
+Startups and AI Innovators
+For world-changing ideas and AI pioneers
+Learn more
+arrow-right
+Customer Case Studies
+Hear directly from our users
+See Stories
+arrow-right
+Company
+Careers
+Start your next adventure
+Blog
+Read articles and announcements
+Newsroom
+Read press releases and news stories
+Partners
+Learn about our partner ecosystem
+Leadership
+Meet our executive team
+Company
+Learn more about who we are
+Contact Us
+Reach out to MongoDB
+Connect with an expert
+arrow-right
+Investors
+Visit our investor portal
+Learn more
+arrow-right
+Pricing
+Eng
+Support
+Sign In
+menu-vertical
+Get Started
+Docs Home
+Get Started
+Development
+Management
+Client Libraries
+Tools
+Atlas Architecture Center
+Docs Home
+Get Started
+Development
+Management
+Client Libraries
+Tools
+Atlas Architecture Center
+Docs Menu
+Ask MongoDB AI
+Getting Started with MongoDB
+To get started and explore MongoDB, try the 5 minute interactive
+tutorial that connects you to a
+MongoDB Atlas
+cluster and walks you through inserting, querying, and
+deleting data in MongoDB.
+Interactive Tutorial
+You do not need to install anything. Click the
+Launch
+button
+of the in-browser Integrated Development Environment to start the tutorial.
+After completing the tutorial, see
+Getting Started with Atlas
+to deploy a free cluster without any installation overhead.
+Next Steps
+Set up Your Own Deployment
+To set up your own deployment:
+Deployment
+Description
+MongoDB Atlas Free Tier Cluster
+MongoDB Atlas is a fast, easy, and free way to get started with
+MongoDB. To learn more, see the
+Getting Started with Atlas
+tutorial.
+Local MongoDB installation
+For more information on installing MongoDB locally, see
+Install MongoDB
+.
+Additional Examples
+For additional examples, including MongoDB driver specific examples
+(Python, Java, Node.js, etc.), see:
+Query document examples
+Query Documents
+Query on Embedded/Nested Documents
+Query an Array
+Query an Array of Embedded Documents
+Project Fields to Return from Query
+Query for Null or Missing Fields
+Update document examples
+Update Documents
+Delete document examples
+Delete Documents
+Additional Topics
+Introduction
+Developers
+Administrators
+Reference
+Introduction to MongoDB
+Installation Guides
+Databases and Collections in MongoDB
+Documents
+CRUD Operations
+Aggregation
+SQL to MongoDB
+Indexes
+Production Notes for Self-Managed Deployments
+Replica Sets
+Sharded Clusters
+MongoDB Security
+Shell Methods
+Query Operators
+Reference
+Glossary

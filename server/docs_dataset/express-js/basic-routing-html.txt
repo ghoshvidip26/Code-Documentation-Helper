@@ -1,0 +1,209 @@
+Basic routing
+
+Express basic routing
+Getting started
+Installing
+Hello world
+Express generator
+Basic routing
+Static files
+More examples
+FAQ
+Guide
+Routing
+Writing middleware
+Using middleware
+Overriding the Express API
+Using template engines
+Error handling
+Debugging
+Express behind proxies
+Moving to Express 4
+Moving to Express 5
+Database integration
+API reference
+5.x
+4.x
+3.x (deprecated)
+2.x (deprecated)
+Advanced topics
+Building template engines
+Security updates
+Security best practices
+Performance best practices
+Health checks & shutdown
+Resources
+Community
+Glossary
+Middleware
+Utility modules
+Contributing to Express
+Release Change Log
+Support
+Blog
+Latest post
+All posts
+Write a Post
+English
+Français
+Deutsch
+Español
+Italiano
+日本語
+中文 (简体)
+繁體中文
+한국어
+Português
+Basic routing
+Routing
+refers to determining how an application responds to a client request to a particular endpoint, which is a URI (or path) and a specific HTTP request method (GET, POST, and so on).
+Each route can have one or more handler functions, which are executed when the route is matched.
+Route definition takes the following structure:
+app
+.
+METHOD
+(
+PATH
+,
+HANDLER
+)
+Where:
+app
+is an instance of
+express
+.
+METHOD
+is an
+HTTP request method
+, in lowercase.
+PATH
+is a path on the server.
+HANDLER
+is the function executed when the route is matched.
+This tutorial assumes that an instance of
+express
+named
+app
+is created and the server is running. If you are not familiar with creating an app and starting it, see the
+Hello world example
+.
+The following examples illustrate defining simple routes.
+Respond with
+Hello World!
+on the homepage:
+app
+.
+get
+(
+'
+/
+'
+,
+(
+req
+,
+res
+)
+=>
+{
+res
+.
+send
+(
+'
+Hello World!
+'
+)
+})
+Respond to a POST request on the root route (
+/
+), the application’s home page:
+app
+.
+post
+(
+'
+/
+'
+,
+(
+req
+,
+res
+)
+=>
+{
+res
+.
+send
+(
+'
+Got a POST request
+'
+)
+})
+Respond to a PUT request to the
+/user
+route:
+app
+.
+put
+(
+'
+/user
+'
+,
+(
+req
+,
+res
+)
+=>
+{
+res
+.
+send
+(
+'
+Got a PUT request at /user
+'
+)
+})
+Respond to a DELETE request to the
+/user
+route:
+app
+.
+delete
+(
+'
+/user
+'
+,
+(
+req
+,
+res
+)
+=>
+{
+res
+.
+send
+(
+'
+Got a DELETE request at /user
+'
+)
+})
+For more details about routing, see the
+routing guide
+.
+Previous: Express application generator
+Next: Serving static files in Express
+Edit this page
+Terms of Use
+Privacy Policy
+Code of Conduct
+Trademark Policy
+Security Policy

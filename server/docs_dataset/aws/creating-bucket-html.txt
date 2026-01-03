@@ -1,0 +1,993 @@
+Getting started with Amazon S3
+
+Getting started with Amazon S3
+You can get started with Amazon S3 by working with buckets and objects. A
+bucket
+is a container for objects. An
+object
+is
+    a file and any metadata that describes that file.
+To store an object in Amazon S3, you create a bucket and then upload the object to the bucket.
+    When the object is in the bucket, you can open it, download it, and move it. When you no longer
+    need an object or a bucket, you can clean up your resources.
+With Amazon S3, you pay only for what you use. For more information about Amazon S3 features and
+    pricing, see
+Amazon S3
+. If you are a new Amazon S3 customer, you
+    can get started with Amazon S3 for free. For more information, see
+AWS Free Tier
+.
+Note
+For more information about using the Amazon S3 Express One Zone storage class with directory buckets, see
+S3 Express One Zone
+and
+Working with directory buckets
+.
+Video: Getting started with Amazon S3
+The following video shows you how to get started with
+      Amazon S3.
+Prerequisites
+Before you begin, confirm that you've completed the steps in
+Setting up Amazon S3
+.
+Setting up Amazon S3
+When you sign up for AWS, your AWS account is automatically signed up for all services
+    in AWS, including Amazon S3. You are charged only for the services that you use.
+With Amazon S3, you pay only for what you use. For more information about Amazon S3 features and
+    pricing, see
+Amazon S3
+. If you are a new Amazon S3 customer, you
+    can get started with Amazon S3 for free. For more information, see
+AWS Free Tier
+.
+To set up Amazon S3, use the steps in the following sections.
+When you sign up for AWS and set up Amazon S3, you can optionally change the display language
+    in the AWS Management Console. For more information, see
+Changing the language
+      of the AWS Management Console
+in the
+AWS Management Console Getting Started Guide
+.
+Topics
+Sign up for an AWS account
+Create a user with administrative access
+Sign up for an AWS account
+If you do not have an AWS account, complete the following steps to create one.
+To sign up for an AWS account
+Open
+https://portal.aws.amazon.com/billing/signup
+.
+Follow the online instructions.
+Part of the sign-up procedure involves receiving a phone call or text message and entering 
+  a verification code on the phone keypad.
+When you sign up for an AWS account, an
+AWS account root user
+is created. The root user has access to all AWS services
+  and resources in the account. As a security best practice, assign administrative access to a user, and use only the root user to perform
+tasks that require root user access
+.
+AWS sends you a confirmation email after the sign-up process is
+complete. At any time, you can view your current account activity and manage your account by
+going to
+https://aws.amazon.com/
+and choosing
+My
+  Account
+.
+Create a user with administrative access
+After you sign up for an AWS account, secure your AWS account root user, enable AWS IAM Identity Center, and create an administrative user so that you 
+don't use the root user for everyday tasks.
+Secure your AWS account root user
+Sign in to the
+AWS Management Console
+as the account owner by choosing
+Root user
+and entering your AWS account email address. On the next page, enter your password.
+For help signing in by using root user, see
+Signing in as the root user
+in the
+AWS Sign-In User Guide
+.
+Turn on multi-factor authentication (MFA) for your root user.
+For instructions, see
+Enable a virtual MFA device for your AWS account root user (console)
+in the
+IAM User Guide
+.
+Create a user with administrative access
+Enable IAM Identity Center.
+For instructions, see
+Enabling
+ AWS IAM Identity Center
+in the
+AWS IAM Identity Center User Guide
+.
+In IAM Identity Center, grant administrative access to a user.
+For a tutorial about using the IAM Identity Center directory as your identity source, see
+Configure user access with the default IAM Identity Center directory
+in the
+AWS IAM Identity Center User Guide
+.
+Sign in as the user with administrative access
+To sign in with your IAM Identity Center user, use the sign-in URL that was sent to your email address when you created the IAM Identity Center user.
+For help signing in using an IAM Identity Center user, see
+Signing in to the AWS access portal
+in the
+AWS Sign-In User Guide
+.
+Assign access to additional users
+In IAM Identity Center, create a permission set that follows the best practice of applying least-privilege permissions.
+For instructions, see
+Create a permission set
+in the
+AWS IAM Identity Center User Guide
+.
+Assign users to a group, and then assign single sign-on access to the group.
+For instructions, see
+Add groups
+in the
+AWS IAM Identity Center User Guide
+.
+Step 1: Create your first S3 bucket
+After you sign up for AWS, you're ready to create a bucket in Amazon S3 using the AWS Management Console.
+    Every object in Amazon S3 is stored in a
+bucket
+. Before you can
+    store data in Amazon S3, you must create a bucket.
+Note
+For more information about using the Amazon S3 Express One Zone storage class with directory buckets, see
+S3 Express One Zone
+and
+Working with directory buckets
+.
+Note
+You are not charged for creating a bucket. You are charged only for storing objects in the
+      bucket and for transferring objects in and out of the bucket. The charges that you incur
+      through following the examples in this guide are minimal (less than $1). For more information
+      about storage charges, see
+Amazon S3
+      pricing
+.
+Sign in to the AWS Management Console and open the Amazon S3 console at
+https://console.aws.amazon.com/s3/
+.
+In the navigation bar on the top of the page, choose the name of the currently displayed AWS Region. Next, choose the Region in which you want to create a bucket.
+Note
+After you create a bucket, you can't change its Region.
+To minimize latency and costs and address regulatory requirements, choose a Region close to
+            you. Objects stored in a Region never leave that Region unless you explicitly transfer them to
+            another Region. For a list of Amazon S3 AWS Regions, see
+AWS service endpoints
+in the
+Amazon Web Services General Reference
+.
+In the left navigation pane, choose
+General purpose buckets
+.
+Choose
+Create bucket
+. The
+Create bucket
+page opens.
+For
+Bucket name
+, enter a name for your bucket.
+The bucket name must:
+Be unique within a partition. A partition is a grouping of Regions. AWS currently has
+          three partitions:
+aws
+(commercial Regions),
+aws-cn
+(China Regions), and
+aws-us-gov
+(AWS GovCloud (US) Regions).
+Be between 3 and 63 characters long.
+Consist only of lowercase letters, numbers, periods (
+.
+), and hyphens
+            (
+-
+). For best compatibility, we recommend that you avoid using periods
+            (
+.
+) in bucket names, except for buckets that are used only for static website
+          hosting.
+Begin and end with a letter or number.
+For a complete list of bucket-naming rules, see
+General purpose bucket naming rules
+.
+Important
+After you create the bucket, you can't change its name.
+Don't include sensitive information in the bucket name. The bucket name is visible in the URLs
+            that point to the objects in the bucket.
+(Optional) Under
+General configuration
+, you can choose to copy an existing
+      bucket's settings to your new bucket. If you don't want to copy the settings of an existing bucket, skip
+      to the next step.
+Note
+This option:
+Isn't available in the AWS CLI and is only available in the Amazon S3 console
+Doesn't copy the bucket policy from the existing bucket to the new bucket
+To copy an existing bucket's settings, under
+Copy settings from existing
+        bucket
+, select
+Choose bucket
+. The
+Choose bucket
+window opens. Find the bucket with the settings that you want to copy, and select
+Choose
+        bucket
+. The
+Choose bucket
+window closes, and the
+Create
+        bucket
+window reopens.
+Under
+Copy settings from existing bucket
+, you now see the name of the
+      bucket that you selected. The settings of your new bucket now match the settings of the bucket that you
+      selected. If you want to remove the copied settings, choose
+Restore defaults
+.
+      Review the remaining bucket settings on the
+Create bucket
+page. If you don't want
+      to make any changes, you can skip to the final step.
+Under
+Object Ownership
+, to disable or enable ACLs and control
+            ownership of objects uploaded in your bucket, choose one of the following
+            settings:
+ACLs disabled
+Bucket owner enforced (default)
+â 
+	ACLs are disabled, and the bucket owner automatically owns and has full control over every object in the general purpose bucket. ACLs 
+	no longer affect access permissions to data in the S3 general purpose bucket. The bucket uses policies exclusively to define access control.
+By default, ACLs are disabled. A majority of modern use cases in Amazon S3 no
+                    longer require the use of ACLs. We recommend that you keep ACLs disabled, except
+                    in circumstances where you must control access for each object
+                    individually. For more information, see
+Controlling ownership of objects and disabling ACLs
+			for your bucket
+.
+ACLs enabled
+Bucket owner preferred
+â The bucket owner owns and
+                    has full control over new objects that other accounts write to the bucket with
+                    the
+bucket-owner-full-control
+canned ACL.
+If you apply the
+Bucket owner preferred
+setting, to
+                    require all Amazon S3 uploads to include the
+bucket-owner-full-control
+canned ACL, you can
+add a
+                        bucket policy
+that allows only object uploads that use this
+                    ACL.
+Object writer
+â The AWS account that uploads an
+                    object owns the object, has full control over it, and can grant other users
+                    access to it through ACLs.
+Note
+The default setting is
+Bucket owner enforced
+. To apply the
+                default setting and keep ACLs disabled, only the
+s3:CreateBucket
+permission is needed. To enable ACLs, you must have the
+s3:PutBucketOwnershipControls
+permission.
+Under
+Block Public Access settings for this bucket
+, choose the
+            Block Public Access settings that you want to apply to the bucket.
+By default, all four Block Public Access settings are enabled. We recommend that you
+            keep all settings enabled, unless you know that you need to turn off one or more of them
+            for your specific use case. For more information about blocking public access, see
+Blocking public access to your Amazon S3
+			storage
+.
+Note
+To enable all Block Public Access settings, only the
+s3:CreateBucket
+permission
+            is required. To turn off any Block Public Access settings, you must have the
+s3:PutBucketPublicAccessBlock
+permission.
+(Optional) By default,
+Bucket Versioning
+is disabled. Versioning is a means
+      of keeping multiple variants of an object in the same bucket. You can use versioning to preserve,
+      retrieve, and restore every version of every object stored in your bucket. With versioning, you can
+      recover more easily from both unintended user actions and application failures. For more information
+      about versioning, see
+Retaining multiple versions of objects with S3 Versioning
+.
+To enable versioning on your bucket, choose
+Enable
+.
+(Optional) Under
+Tags
+, you can choose to add tags to your bucket. With
+      AWS cost allocation, you can use bucket tags to annotate billing for your use of a bucket. A tag is a
+      key-value pair that represents a label that you assign to a bucket. For more information, see
+Using cost allocation S3 bucket tags
+.
+To add a bucket tag, enter a
+Key
+and optionally a
+Value
+and choose
+Add Tag
+.
+To configure
+Default encryption
+, under
+Encryption type
+,
+      choose one of the following:
+Server-side encryption with Amazon S3 managed keys (SSE-S3)
+Server-side encryption with AWS Key Management Service keys (SSE-KMS)
+Dual-layer server-side encryption with AWS Key Management Service (AWS KMS) keys
+          (DSSE-KMS)
+Important
+If you use the SSE-KMS or DSSE-KMS option for your default encryption configuration, you are
+            subject to the requests per second (RPS) quota of AWS KMS. For more information about AWS KMS quotas
+            and how to request a quota increase, see
+Quotas
+in
+            the
+AWS Key Management Service Developer Guide
+.
+Buckets and new objects are encrypted by using server-side encryption with Amazon S3 managed keys
+      (SSE-S3) as the base level of encryption configuration. For more information about default encryption,
+      see
+Setting default server-side encryption behavior for Amazon S3
+      buckets
+. For more information about
+      SSE-S3, see
+Using server-side encryption with Amazon S3 managed keys
+			(SSE-S3)
+.
+For more information about using server-side encryption to encrypt your data, see
+Protecting data with encryption
+.
+If you chose
+Server-side encryption with AWS Key Management Service keys (SSE-KMS)
+or
+Dual-layer server-side encryption with AWS Key Management Service (AWS KMS) keys (DSSE-KMS)
+, do the
+      following:
+Under
+AWS KMS key
+, specify your KMS key in one of the following ways:
+To choose from a list of available KMS keys, choose
+Choose from
+              your AWS KMS keys
+, and choose your
+KMS key
+from the list of available keys.
+Both the AWS managed key (
+aws/s3
+) and your customer managed keys appear in this
+              list. For more information about customer managed keys, see
+Customer keys and
+                AWS keys
+in the
+AWS Key Management Service Developer Guide
+.
+To enter the KMS key ARN, choose
+Enter AWS KMS key
+              ARN
+, and enter your KMS key ARN in the field that appears.
+To create a new customer managed key in the AWS KMS console, choose
+Create a
+              KMS key
+.
+For more information about creating an AWS KMS key, see
+Creating keys
+in the
+AWS Key Management Service Developer Guide
+.
+Important
+You can use only KMS keys that are available in the same AWS Region as the bucket. The
+            Amazon S3 console lists only the first 100 KMS keys in the same Region as the bucket. To use a
+            KMS key that isn't listed, you must enter your KMS key ARN. If you want to use a KMS key
+            that's owned by a different account, you must first have permission to use the key, and then you
+            must enter the KMS key ARN. For more information about cross account permissions for KMS keys,
+            see
+Creating KMS keys that other accounts can use
+in the
+AWS Key Management Service Developer Guide
+. For more information about SSE-KMS, see
+Specifying server-side encryption with AWS KMS
+      (SSE-KMS)
+. For more
+            information about DSSE-KMS, see
+Using dual-layer server-side encryption with AWS KMS keys
+            (DSSE-KMS)
+.
+When you use an AWS KMS key for server-side encryption in Amazon S3, you must
+            choose a symmetric encryption KMS key. Amazon S3 supports only symmetric encryption KMS keys and not
+            asymmetric KMS keys. For more information, see
+Identifying symmetric and
+              asymmetric KMS keys
+in the
+AWS Key Management Service Developer Guide
+.
+When you configure your bucket to use default encryption with SSE-KMS, you can also use S3 Bucket Keys.
+          S3 Bucket Keys lower the cost of encryption by decreasing request traffic from Amazon S3 to AWS KMS. For more
+          information, see
+Reducing the cost of SSE-KMS with Amazon S3 Bucket Keys
+. S3 Bucket Keys aren't
+          supported for DSSE-KMS.
+By default, S3 Bucket Keys are enabled in the Amazon S3 console. We recommend leaving S3 Bucket Keys enabled to
+          lower your costs. To disable S3 Bucket Keys for your bucket, under
+Bucket Key
+, choose
+Disable
+.
+(Optional) S3 Object Lock helps protect new objects from being deleted or overwritten. For
+      more information, see
+Locking objects with Object Lock
+. If you want to enable
+      S3 Object Lock, do the following:
+Choose
+Advanced settings
+.
+Important
+Enabling Object Lock automatically enables versioning for the bucket. After you've
+            enabled and successfully created the bucket, you must also configure the Object Lock default
+            retention and legal hold settings on the bucket's
+Properties
+tab.
+If you want to enable Object Lock, choose
+Enable
+, read the warning that appears, and acknowledge it.
+Note
+To create an Object Lock enabled bucket, you must have the following permissions:
+s3:CreateBucket
+,
+s3:PutBucketVersioning
+, and
+s3:PutBucketObjectLockConfiguration
+.
+Choose
+Create bucket
+.
+You've created a bucket in Amazon S3.
+Next step
+To add an object to your bucket, see
+Step 2: Upload an object to your bucket
+.
+Step 2: Upload an object to your bucket
+After creating a bucket in Amazon S3, you're ready to upload an object to the bucket. An object
+    can be any kind of file: a text file, a photo, a video, and so on.
+Note
+For more information about using the Amazon S3 Express One Zone storage class with directory buckets, see
+S3 Express One Zone
+and
+Working with directory buckets
+.
+To upload an object to a bucket
+Open the Amazon S3 console at
+https://console.aws.amazon.com/s3/
+.
+In the
+Buckets
+list, choose the name of the bucket that you want to
+        upload your object to.
+On the
+Objects
+tab for your bucket, choose
+Upload
+.
+Under
+Files and folders
+, choose
+Add
+        files
+.
+Choose a file to upload, and then choose
+Open.
+Choose
+Upload
+.
+You've successfully uploaded an object to your bucket.
+Next step
+To view your object, see
+Step 3: Download an object
+.
+Step 3: Download an object
+After you upload an object to a bucket, you can view information about your object and
+    download the object to your local computer.
+Note
+For more information about using the Amazon S3 Express One Zone storage class with directory buckets, see
+S3 Express One Zone
+and
+Working with directory buckets
+.
+Using the S3 console
+This section explains how to use the Amazon S3 console to download an object from an S3
+        bucket.
+Note
+You can download only one object at a time.
+If you use the Amazon S3 console to download an object whose key name ends with a
+                    period (
+.
+), the period is removed from the key name of the
+                    downloaded object. To retain the period at the end of the name of the downloaded
+                    object, you must use the AWS Command Line Interface (AWS CLI), AWS SDKs, or Amazon S3 REST API.
+To download an object from an S3 bucket
+Sign in to the AWS Management Console and open the Amazon S3 console at
+https://console.aws.amazon.com/s3/
+.
+In the left navigation pane, choose
+General purpose buckets
+or
+Directory buckets
+.
+In the buckets list, choose the name of the bucket that you
+                want to download an object from.
+You can download an object from an S3 bucket in any of the following ways:
+Select the check box next to the object, and choose
+Download
+. If you want to download the object to a
+                        specific folder, on the
+Actions
+menu, choose
+Download as
+.
+If you want to download a specific version of the object, turn on
+Show versions
+(located next to the search box).
+                        Select the check box next to the version of the object that you want, and
+                        choose
+Download
+. If you want to download the object to
+                        a specific folder, on the
+Actions
+menu, choose
+Download as
+.
+You've successfully downloaded your object.
+Next step
+To copy and paste your object within Amazon S3, see
+Step 4: Copy your object to a folder
+.
+Step 4: Copy your object to a folder
+You've already added an object to a bucket and downloaded the object. Now, you create a
+    folder and copy the object and paste it into the folder.
+Note
+For more information about using the Amazon S3 Express One Zone storage class with directory buckets, see
+S3 Express One Zone
+and
+Working with directory buckets
+.
+To copy an object to a folder
+In the
+Buckets
+list, choose your bucket name.
+Choose
+Create folder
+and configure a new folder:
+Enter a folder name (for example,
+favorite-pics
+).
+For the folder encryption setting, choose
+Disable
+.
+Choose
+Save
+.
+Navigate to the Amazon S3 bucket or folder that contains the objects that you want to
+        copy.
+Select the check box to the left of the names of the objects that you want to
+        copy.
+Choose
+Actions
+and choose
+Copy
+from the list
+        of options that appears.
+Alternatively, choose
+Copy
+from the options in the upper right.
+Choose the destination folder:
+Choose
+Browse S3
+.
+Choose the option button to the left of the folder name.
+To navigate into a folder and choose a subfolder as your destination, choose the
+            folder name.
+Choose
+Choose destination
+.
+The path to your destination folder appears in the
+Destination
+box.
+        In
+Destination
+, you can alternately enter your destination path, for
+        example,
+        s3://
+bucket-name
+/
+folder-name
+/.
+In the bottom right, choose
+Copy
+.
+Amazon S3 copies your objects to the destination folder.
+Next step
+To delete an object and a bucket in Amazon S3, see
+Step 5: Delete your objects and bucket
+.
+Step 5: Delete your objects and bucket
+When you no longer need an object or a bucket, we recommend that you delete them to prevent
+    further charges. If you completed this getting started walkthrough as a learning exercise, and
+    you don't plan to use your bucket or objects, we recommend that you delete your bucket and
+    objects so that charges no longer accrue.
+Before you delete your bucket, empty the bucket or delete the objects in the bucket. After
+    you delete your objects and bucket, they are no longer available.
+If you want to continue to use the same bucket name, we recommend that you delete the
+    objects or empty the bucket, but don't delete the bucket. After you delete a bucket, the name
+    becomes available to reuse. However, another AWS account might create a bucket with the same
+    name before you have a chance to reuse it.
+Note
+For more information about using the Amazon S3 Express One Zone storage class with directory buckets, see
+S3 Express One Zone
+and
+Working with directory buckets
+.
+Topics
+Deleting an object
+Emptying your bucket
+Deleting your bucket
+Deleting an object
+If you want to choose which objects you delete without emptying all the objects from your
+      bucket, you can delete an object.
+In the
+Buckets
+list, choose the name of the bucket that you want
+          to delete an object from.
+Select the object that you want to
+          delete.
+Choose
+Delete
+from the options in the upper right.
+On the
+Delete objects
+page, type
+delete
+to confirm deletion of your objects.
+Choose
+Delete objects
+.
+Emptying your bucket
+If you plan to delete your bucket, you must first empty your bucket, which deletes all the
+      objects in the bucket.
+To empty a bucket
+In the
+Buckets
+list, select the bucket that you want to empty,
+          and then choose
+Empty
+.
+To confirm that you want to empty the bucket and delete all the objects in it, in
+Empty bucket
+, type
+permanently
+          delete
+.
+Important
+Emptying the bucket cannot be undone. Objects added to the bucket while the empty
+            bucket action is in progress will be deleted.
+To empty the bucket and delete all the objects in it, and choose
+Empty
+.
+An
+Empty bucket: Status
+page opens that you can use to review a
+          summary of failed and successful object deletions.
+To return to your bucket list, choose
+Exit
+.
+Deleting your bucket
+After you empty your bucket or delete all the objects from your bucket, you can delete
+        your bucket.
+To delete a bucket, in the
+Buckets
+list, select the
+          bucket.
+Choose
+Delete
+.
+To confirm deletion, in
+Delete bucket
+, type the name of the
+          bucket.
+Important
+Deleting a bucket cannot be undone. Bucket names are unique. If you delete your
+            bucket, another AWS user can use the name. If you want to continue to use the same
+            bucket name, don't delete your bucket. Instead, empty and keep the bucket.
+To delete your bucket, choose
+Delete bucket
+.
+Next steps
+In the preceding examples, you learned how to perform some basic Amazon S3 tasks.
+The following topics explain the learning paths that you can use to
+        gain a deeper understanding of Amazon S3 so that you can implement it in your
+        applications.
+Note
+For more information about using the Amazon S3 Express One Zone storage class with directory buckets, see
+S3 Express One Zone
+and
+Working with directory buckets
+.
+Topics
+Understand common use cases
+Control access to your buckets and
+                objects
+Protect and monitor your storage
+Develop with Amazon S3
+Learn from tutorials
+Explore training and support
+Understand common use cases
+You can use Amazon S3 to support your specific use case. The
+AWS Solutions
+                Library
+and
+AWS
+                Blog
+provide use-case specific information and
+            tutorials. The following are some common use cases for Amazon S3:
+Backup and storage
+â Use Amazon S3 storage
+                    management features to manage costs, meet regulatory requirements, reduce
+                    latency, and save multiple distinct copies of your data for compliance
+                    requirements.
+Application hosting
+â Deploy, install,
+                    and manage web applications that are reliable, highly scalable, and low-cost.
+                    For example, you can configure your Amazon S3 bucket to host a static website. For
+                    more information, see
+Hosting a static website using Amazon S3
+.
+Media hosting
+â Build a highly available
+                    infrastructure that hosts video, photo, or music uploads and downloads.
+Software delivery
+â Host your software
+                    applications for customers to download.
+Control access to your buckets and
+                objects
+Amazon S3 provides a variety of security features and tools. For an overview, see
+Access control in Amazon S3
+.
+By default, S3 buckets and the objects in them are private. You
+            have access only to the S3 resources that you create. You can use
+            the following features to grant granular resource permissions that
+            support your specific use case or to audit the permissions of your
+            Amazon S3 resources.
+S3
+                        Block Public Access
+â Block public access to S3 buckets and
+                    objects. By default, Block Public Access settings are turned on at the bucket
+                    level.
+AWS Identity and Access Management (IAM)
+                        identities
+â Use IAM or AWS IAM Identity Center to create IAM
+                    identities in your AWS account to manage access to your Amazon S3 resources. For
+                    example, you can use IAM with Amazon S3 to control the type of access that a user
+                    or group of users has to an Amazon S3 bucket that your AWS account owns. For more
+                    information about IAM identities and best practices, see
+IAM identities
+                        (users, user groups, and roles)
+in the
+IAM User Guide
+.
+Bucket policies
+â Use IAM-based policy
+                    language to configure resource-based permissions for your S3
+                    buckets and the objects in them.
+Access
+                        control lists (ACLs)
+â Grant read and write permissions for
+                    individual buckets and objects to authorized users. As a general rule, we
+                    recommend using S3 resource-based policies (bucket policies and access point
+                    policies) or IAM user policies for access control instead of ACLs. Policies
+                    are a simplified and more flexible access-control option. With bucket policies
+                    and access point policies, you can define rules that apply broadly across all
+                    requests to your Amazon S3 resources. For more information about the specific cases
+                    when you'd use ACLs instead of resource-based policies or IAM user policies,
+                    see
+Identity and Access Management for Amazon S3
+.
+S3 Object Ownership
+â Take ownership of every object in
+                    your bucket, simplifying access management for data stored in Amazon S3.
+                    S3 Object Ownership is an Amazon S3 bucket-level setting that you can use to
+                    disable or enable ACLs. By default, ACLs are disabled. With ACLs disabled, the
+                    bucket owner owns all the objects in the bucket and manages access to data
+                    exclusively by using access-management policies.
+IAM Access Analyzer for S3
+â Evaluate and monitor your S3
+                    bucket access policies, ensuring that the policies provide
+                    only the intended access to your S3 resources.
+Protect and monitor your storage
+Protecting your storage
+â After
+                    you create buckets and upload objects in Amazon S3, you can protect your object
+                    storage. For example, you can use S3 Versioning, S3 Replication, and Multi-Region Access Point
+                    failover controls for disaster recovery, AWS Backup to back up your data, and
+                    S3 Object Lock to set retention periods, prevent deletions and overwrites, and
+                    meet compliance requirements.
+Monitoring your
+                        storage
+â Monitoring is an important part
+                    of maintaining the reliability, availability, and
+                    performance of Amazon S3 and your AWS solutions. You can
+                    monitor storage activity and costs. Also, we recommend that
+                    you collect monitoring data from all the parts of your AWS
+                    solution so that you can more easily debug a multipoint
+                    failure if one occurs.
+You can also use analytics and insights in Amazon S3 to understand, analyze, and
+                    optimize your storage usage. For example, use
+Amazon S3 Storage Lens
+to understand, analyze, and optimize your storage.
+                    S3 Storage Lens provides 29+ usage and activity metrics and interactive dashboards to
+                    aggregate data for your entire organization, specific accounts, Regions,
+                    buckets, or prefixes. Use
+Storage Class
+                        Analysis
+to analyze storage access patterns to decide when it's time
+                    to move your data to a more cost-effective storage class. To manage your costs,
+                    you can use
+S3 Lifecycle
+.
+Develop with Amazon S3
+Amazon S3 is a REST service. You can send requests to Amazon S3 using the
+            REST API or the AWS SDK libraries, which wrap the underlying Amazon S3
+            REST API, simplifying your programming tasks. You can also use the
+            AWS Command Line Interface (AWS CLI) to make Amazon S3 API calls. For more information, see
+Making requests
+in the
+Amazon S3 API Reference
+.
+The Amazon S3 REST API is an HTTP interface to Amazon S3. With the REST API,
+            you use standard HTTP requests to create, fetch, and delete buckets
+            and objects. To use the REST API, you can use any toolkit that
+            supports HTTP. You can even use a browser to fetch objects, as long
+            as they are anonymously readable. For more information, see
+Developing with Amazon S3
+in the
+Amazon S3 API Reference
+.
+To help you build applications using the language of your choice, we provide the
+            following resources.
+AWS CLI
+You can access the features of Amazon S3 using the AWS CLI.
+                        To download and configure the AWS CLI, see
+Developing with Amazon S3 using the AWS CLI
+in the
+Amazon S3 API Reference
+.
+The AWS CLI provides two tiers of commands for accessing
+                        Amazon S3: High-level (
+s3
+) commands and API-level (
+s3api
+and
+s3control
+commands. The high-level S3
+                        commands simplify performing common tasks, such as
+                        creating, manipulating, and deleting objects and
+                        buckets. The s3api and s3control commands expose direct
+                        access to all Amazon S3 API operations, which you can use to
+                        carry out advanced operations that might not be possible
+                        with the high-level commands alone.
+For a list of Amazon S3 AWS CLI commands, see
+s3
+,
+s3api
+, and
+s3control
+.
+AWS SDKs and Explorers
+You can use the AWS SDKs when developing applications with Amazon S3. The
+                        AWS SDKs simplify your programming tasks by wrapping the underlying REST
+                        API. The AWS Mobile SDKs and the Amplify JavaScript library are also
+                        available for building connected mobile and web applications using
+                        AWS.
+In addition to the AWS SDKs, AWS Explorers are
+                        available for Visual Studio and Eclipse for Java IDE. In
+                        this case, the SDKs and the explorers are bundled
+                        together as AWS Toolkits.
+For more information, see
+Developing with Amazon S3 using the AWS SDKs
+in the
+Amazon S3 API Reference
+.
+Sample Code and Libraries
+The
+AWS
+                            Developer Center
+and
+AWS
+                            Code Sample Catalog
+have sample code and
+                        libraries written especially for Amazon S3. You can use these
+                        code samples to understand how to implement the Amazon S3
+                        API. You can also view the
+Amazon Simple Storage Service API Reference
+to understand the Amazon S3 API operations in detail.
+Learn from tutorials
+You can get started with step-by-step tutorials to learn more about Amazon S3. These tutorials are intended for a lab-type
+            environment, and they use fictitious company names, user names, and so
+            on. Their purpose is to provide general guidance. They are not intended
+            for direct use in a production environment without careful review and
+            adaptation to meet the unique needs of your organization's environment.
+Getting started
+Tutorial: Storing and retrieving a file with Amazon S3
+Tutorial: Getting started using S3 Intelligent-Tiering
+Tutorial: Getting started using the S3 Glacier storage classes
+Optimizing storage costs
+Tutorial: Getting started using S3 Intelligent-Tiering
+Tutorial: Getting started using the S3 Glacier; storage classes
+Tutorial: Optimizing costs and gaining visibility into usage with S3 Storage Lens
+Managing storage
+Tutorial: Getting started with Amazon S3 Multi-Region Access Points
+Tutorial: Replicating existing objects in your Amazon S3 buckets with S3 Batch Replication
+Hosting videos and websites
+Tutorial: Hosting on-demand
+            streaming video with Amazon S3, Amazon CloudFront, and Amazon RouteÂ 53
+Tutorial: Configuring a static website on
+            Amazon S3
+Tutorial: Configuring a static website using a
+			custom domain registered with RouteÂ 53
+Processing data
+Tutorial: Transforming data for your
+            application with S3 Object Lambda
+Tutorial:
+            Detecting and redacting PII data with S3 Object Lambda and Amazon Comprehend
+Tutorial: Using S3 Object Lambda to dynamically watermark images as they are retrieved
+Tutorial: Batch-transcoding
+            videos with S3 Batch Operations
+Protecting data
+Tutorial: Checking the integrity of data in Amazon S3 with additional checksums
+Tutorial: Replicating data within and between AWS Regions using S3 Replication
+Tutorial: Protecting data on Amazon S3 against accidental deletion or application bugs
+                    using S3 Versioning, S3 Object Lock, and S3 Replication
+Tutorial: Replicating existing objects in your Amazon S3 buckets with S3 Batch Replication
+Explore training and support
+You can learn from AWS experts to advance your skills and get expert assistance
+            achieving your objectives.
+Training
+â Training resources provide a hands-on approach to learning Amazon S3. For more
+                    information, see
+AWS training and
+                        certification
+and
+AWS online tech talks
+.
+Discussion Forums
+â On the forum, you can review posts to understand what you can and can't do
+                    with Amazon S3. You can also post your questions. For more information, see
+Discussion Forums
+.
+Technical Support
+â If you have further questions, you can contact
+Technical Support
+.
+Javascript is disabled or is unavailable in your browser.
+To use the Amazon Web Services Documentation, Javascript must be enabled. Please refer to your browser's Help pages for instructions.
+Document Conventions
+Amazon S3 Object Lambda availability change
+Using Amazon S3 with the AWS CLI

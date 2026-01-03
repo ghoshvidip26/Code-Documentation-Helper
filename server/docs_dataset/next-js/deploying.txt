@@ -1,0 +1,504 @@
+Deploying
+
+Menu
+Using App Router
+Features available in /app
+Latest Version
+16.1.1
+Getting Started
+Installation
+Project Structure
+Layouts and Pages
+Linking and Navigating
+Server and Client Components
+Cache Components
+Fetching Data
+Updating Data
+Caching and Revalidating
+Error Handling
+CSS
+Image Optimization
+Font Optimization
+Metadata and OG images
+Route Handlers
+Proxy
+Deploying
+Upgrading
+Guides
+Analytics
+Authentication
+Backend for Frontend
+Caching
+CI Build Caching
+Content Security Policy
+CSS-in-JS
+Custom Server
+Data Security
+Debugging
+Draft Mode
+Environment Variables
+Forms
+ISR
+Instrumentation
+Internationalization
+JSON-LD
+Lazy Loading
+Development Environment
+Next.js MCP Server
+MDX
+Memory Usage
+Migrating
+App Router
+Create React App
+Vite
+Multi-tenant
+Multi-zones
+OpenTelemetry
+Package Bundling
+Prefetching
+Production
+PWAs
+Redirecting
+Sass
+Scripts
+Self-Hosting
+SPAs
+Static Exports
+Tailwind CSS v3
+Testing
+Cypress
+Jest
+Playwright
+Vitest
+Third Party Libraries
+Upgrading
+Codemods
+Version 14
+Version 15
+Version 16
+Videos
+API Reference
+Directives
+use cache
+use cache: private
+use cache: remote
+use client
+use server
+Components
+Font
+Form Component
+Image Component
+Link Component
+Script Component
+File-system conventions
+default.js
+Dynamic Segments
+error.js
+forbidden.js
+instrumentation.js
+instrumentation-client.js
+Intercepting Routes
+layout.js
+loading.js
+mdx-components.js
+not-found.js
+page.js
+Parallel Routes
+proxy.js
+public
+route.js
+Route Groups
+Route Segment Config
+src
+template.js
+unauthorized.js
+Metadata Files
+favicon, icon, and apple-icon
+manifest.json
+opengraph-image and twitter-image
+robots.txt
+sitemap.xml
+Functions
+after
+cacheLife
+cacheTag
+connection
+cookies
+draftMode
+fetch
+forbidden
+generateImageMetadata
+generateMetadata
+generateSitemaps
+generateStaticParams
+generateViewport
+headers
+ImageResponse
+NextRequest
+NextResponse
+notFound
+permanentRedirect
+redirect
+refresh
+revalidatePath
+revalidateTag
+unauthorized
+unstable_cache
+unstable_noStore
+unstable_rethrow
+updateTag
+useLinkStatus
+useParams
+usePathname
+useReportWebVitals
+useRouter
+useSearchParams
+useSelectedLayoutSegment
+useSelectedLayoutSegments
+userAgent
+Configuration
+next.config.js
+experimental.adapterPath
+allowedDevOrigins
+appDir
+assetPrefix
+authInterrupts
+basePath
+browserDebugInfoInTerminal
+cacheComponents
+cacheHandlers
+cacheLife
+compress
+crossOrigin
+cssChunking
+devIndicators
+distDir
+env
+expireTime
+exportPathMap
+generateBuildId
+generateEtags
+headers
+htmlLimitedBots
+httpAgentOptions
+images
+cacheHandler
+inlineCss
+isolatedDevBuild
+logging
+mdxRs
+onDemandEntries
+optimizePackageImports
+output
+pageExtensions
+poweredByHeader
+productionBrowserSourceMaps
+proxyClientMaxBodySize
+reactCompiler
+reactMaxHeadersLength
+reactStrictMode
+redirects
+rewrites
+sassOptions
+serverActions
+serverComponentsHmrCache
+serverExternalPackages
+staleTimes
+staticGeneration*
+taint
+trailingSlash
+transpilePackages
+turbopack
+turbopackFileSystemCache
+typedRoutes
+typescript
+urlImports
+useLightningcss
+viewTransition
+webpack
+webVitalsAttribution
+TypeScript
+ESLint
+CLI
+create-next-app
+next CLI
+Edge Runtime
+Turbopack
+Getting Started
+Installation
+Project Structure
+Images
+Fonts
+CSS
+Deploying
+Guides
+Analytics
+Authentication
+Babel
+CI Build Caching
+Content Security Policy
+CSS-in-JS
+Custom Server
+Debugging
+Draft Mode
+Environment Variables
+Forms
+ISR
+Instrumentation
+Internationalization
+Lazy Loading
+MDX
+Migrating
+App Router
+Create React App
+Vite
+Multi-Zones
+OpenTelemetry
+Package Bundling
+PostCSS
+Preview Mode
+Production
+Redirecting
+Sass
+Scripts
+Self-Hosting
+Static Exports
+Tailwind CSS
+Testing
+Cypress
+Jest
+Playwright
+Vitest
+Third Party Libraries
+Upgrading
+Codemods
+Version 10
+Version 11
+Version 12
+Version 13
+Version 14
+Version 9
+Building Your Application
+Routing
+Pages and Layouts
+Dynamic Routes
+Linking and Navigating
+Custom App
+Custom Document
+API Routes
+Custom Errors
+Rendering
+Server-side Rendering (SSR)
+Static Site Generation (SSG)
+Automatic Static Optimization
+Client-side Rendering (CSR)
+Data Fetching
+getStaticProps
+getStaticPaths
+Forms and Mutations
+getServerSideProps
+Client-side Fetching
+Configuring
+Error Handling
+API Reference
+Components
+Font
+Form
+Head
+Image
+Image (Legacy)
+Link
+Script
+File-system conventions
+instrumentation.js
+Proxy
+public
+src Directory
+Functions
+getInitialProps
+getServerSideProps
+getStaticPaths
+getStaticProps
+NextRequest
+NextResponse
+useReportWebVitals
+useRouter
+userAgent
+Configuration
+next.config.js Options
+experimental.adapterPath
+allowedDevOrigins
+assetPrefix
+basePath
+bundlePagesRouterDependencies
+compress
+crossOrigin
+devIndicators
+distDir
+env
+exportPathMap
+generateBuildId
+generateEtags
+headers
+httpAgentOptions
+images
+isolatedDevBuild
+onDemandEntries
+optimizePackageImports
+output
+pageExtensions
+poweredByHeader
+productionBrowserSourceMaps
+experimental.proxyClientMaxBodySize
+reactStrictMode
+redirects
+rewrites
+serverExternalPackages
+trailingSlash
+transpilePackages
+turbopack
+typescript
+urlImports
+useLightningcss
+webpack
+webVitalsAttribution
+TypeScript
+ESLint
+CLI
+create-next-app CLI
+next CLI
+Edge Runtime
+Turbopack
+Architecture
+Accessibility
+Fast Refresh
+Next.js Compiler
+Supported Browsers
+Community
+Contribution Guide
+Rspack
+On this page
+Node.js server
+Templates
+Docker
+Templates
+Static export
+Templates
+Adapters
+Edit this page on GitHub
+Scroll to top
+App Router
+Getting Started
+Deploying
+Copy page
+Deploying
+Last updated
+December 4, 2025
+Next.js can be deployed as a Node.js server, Docker container, static export, or adapted to run on different platforms.
+Deployment Option
+Feature Support
+Node.js server
+All
+Docker container
+All
+Static export
+Limited
+Adapters
+Platform-specific
+Node.js server
+Next.js can be deployed to any provider that supports Node.js. Ensure your
+package.json
+has the
+"build"
+and
+"start"
+scripts:
+package.json
+{
+"scripts"
+:
+{
+"dev"
+:
+"next dev"
+,
+"build"
+:
+"next build"
+,
+"start"
+:
+"next start"
+}
+}
+Then, run
+npm run build
+to build your application and
+npm run start
+to start the Node.js server. This server supports all Next.js features. If needed, you can also eject to a
+custom server
+.
+Node.js deployments support all Next.js features. Learn how to
+configure them
+for your infrastructure.
+Templates
+Flightcontrol
+Railway
+Replit
+Docker
+Next.js can be deployed to any provider that supports
+Docker
+containers. This includes container orchestrators like Kubernetes or a cloud provider that runs Docker.
+Docker deployments support all Next.js features. Learn how to
+configure them
+for your infrastructure.
+Note for development:
+While Docker is excellent for production deployments, consider using local development (
+npm run dev
+) instead of Docker during development on Mac and Windows for better performance.
+Learn more about optimizing local development
+.
+Templates
+Docker
+Docker Multi-Environment
+DigitalOcean
+Fly.io
+Google Cloud Run
+Render
+SST
+Static export
+Next.js enables starting as a static site or
+Single-Page Application (SPA)
+, then later optionally upgrading to use features that require a server.
+Since Next.js supports
+static exports
+, it can be deployed and hosted on any web server that can serve HTML/CSS/JS static assets. This includes tools like AWS S3, Nginx, or Apache.
+Running as a
+static export
+does not
+support Next.js features that require a server.
+Learn more
+.
+Templates
+GitHub Pages
+Adapters
+Next.js can be adapted to run on different platforms to support their infrastructure capabilities.
+Refer to each provider's documentation for information on supported Next.js features:
+Appwrite Sites
+AWS Amplify Hosting
+Cloudflare
+Deno Deploy
+Firebase App Hosting
+Netlify
+Vercel
+Note:
+We are working on a
+Deployment Adapters API
+for all platforms to adopt. After completion, we will add documentation on how to write your own adapters.
+Previous
+Proxy
+Next
+Upgrading
+Was this helpful?
+supported.
+Send

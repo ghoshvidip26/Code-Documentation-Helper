@@ -1,0 +1,528 @@
+Dark mode
+
+Dark mode - Core concepts - Tailwind CSS
+v4.1
+⌘K
+Ctrl K
+Docs
+Blog
+Showcase
+Sponsor
+Plus
+Core concepts
+Dark mode
+Documentation
+Components
+Templates
+UI Kit
+Playground
+Course
+New
+Community
+Getting started
+Installation
+Editor setup
+Compatibility
+Upgrade guide
+Core concepts
+Styling with utility classes
+Hover, focus, and other states
+Responsive design
+Dark mode
+Theme variables
+Colors
+Adding custom styles
+Detecting classes in source files
+Functions and directives
+Base styles
+Preflight
+Layout
+aspect-ratio
+columns
+break-after
+break-before
+break-inside
+box-decoration-break
+box-sizing
+display
+float
+clear
+isolation
+object-fit
+object-position
+overflow
+overscroll-behavior
+position
+top / right / bottom / left
+visibility
+z-index
+Flexbox & Grid
+flex-basis
+flex-direction
+flex-wrap
+flex
+flex-grow
+flex-shrink
+order
+grid-template-columns
+grid-column
+grid-template-rows
+grid-row
+grid-auto-flow
+grid-auto-columns
+grid-auto-rows
+gap
+justify-content
+justify-items
+justify-self
+align-content
+align-items
+align-self
+place-content
+place-items
+place-self
+Spacing
+padding
+margin
+Sizing
+width
+min-width
+max-width
+height
+min-height
+max-height
+Typography
+font-family
+font-size
+font-smoothing
+font-style
+font-weight
+font-stretch
+font-variant-numeric
+letter-spacing
+line-clamp
+line-height
+list-style-image
+list-style-position
+list-style-type
+text-align
+color
+text-decoration-line
+text-decoration-color
+text-decoration-style
+text-decoration-thickness
+text-underline-offset
+text-transform
+text-overflow
+text-wrap
+text-indent
+vertical-align
+white-space
+word-break
+overflow-wrap
+hyphens
+content
+Backgrounds
+background-attachment
+background-clip
+background-color
+background-image
+background-origin
+background-position
+background-repeat
+background-size
+Borders
+border-radius
+border-width
+border-color
+border-style
+outline-width
+outline-color
+outline-style
+outline-offset
+Effects
+box-shadow
+text-shadow
+opacity
+mix-blend-mode
+background-blend-mode
+mask-clip
+mask-composite
+mask-image
+mask-mode
+mask-origin
+mask-position
+mask-repeat
+mask-size
+mask-type
+Filters
+filter
+blur
+brightness
+contrast
+drop-shadow
+grayscale
+hue-rotate
+invert
+saturate
+sepia
+backdrop-filter
+blur
+brightness
+contrast
+grayscale
+hue-rotate
+invert
+opacity
+saturate
+sepia
+Tables
+border-collapse
+border-spacing
+table-layout
+caption-side
+Transitions & Animation
+transition-property
+transition-behavior
+transition-duration
+transition-timing-function
+transition-delay
+animation
+Transforms
+backface-visibility
+perspective
+perspective-origin
+rotate
+scale
+skew
+transform
+transform-origin
+transform-style
+translate
+Interactivity
+accent-color
+appearance
+caret-color
+color-scheme
+cursor
+field-sizing
+pointer-events
+resize
+scroll-behavior
+scroll-margin
+scroll-padding
+scroll-snap-align
+scroll-snap-stop
+scroll-snap-type
+touch-action
+user-select
+will-change
+SVG
+fill
+stroke
+stroke-width
+Accessibility
+forced-color-adjust
+Core concepts
+Dark mode
+Using variants to style your site in dark mode.
+Overview
+Now that dark mode is a first-class feature of many operating systems, it's becoming more and more common to design a dark version of your website to go along with the default design.
+To make this as easy as possible, Tailwind includes a
+dark
+variant that lets you style your site differently when dark mode is enabled:
+Light mode
+Writes upside-down
+The Zero Gravity Pen can be used to write in any orientation,
+        including upside-down. It even works in outer space.
+Dark mode
+Writes upside-down
+The Zero Gravity Pen can be used to write in any orientation,
+        including upside-down. It even works in outer space.
+<
+div
+class
+=
+"bg-white
+dark:bg-gray-800
+rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5"
+>
+<
+div
+>
+<
+span
+class
+=
+"inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 shadow-lg"
+>
+<
+svg
+class
+=
+"h-6 w-6 stroke-white"
+...
+>
+<!-- ... -->
+</
+svg
+>
+</
+span
+>
+</
+div
+>
+<
+h3
+class
+=
+"text-gray-900
+dark:text-white
+mt-5 text-base font-medium tracking-tight "
+>
+Writes upside-down
+</
+h3
+>
+<
+p
+class
+=
+"text-gray-500
+dark:text-gray-400
+mt-2 text-sm "
+>
+The Zero Gravity Pen can be used to write in any orientation, including upside-down. It even works in outer space.
+</
+p
+>
+</
+div
+>
+By default this uses the
+prefers-color-scheme
+CSS media feature, but you can also build sites that support
+toggling dark mode manually
+by overriding the dark variant.
+Toggling dark mode manually
+If you want your dark theme to be driven by a CSS selector instead of the
+prefers-color-scheme
+media query, override the
+dark
+variant to use your custom selector:
+app.css
+@import
+"tailwindcss"
+;
+@custom-variant
+dark (&:where(.dark, .dark *))
+;
+Now instead of
+dark:*
+utilities being applied based on
+prefers-color-scheme
+, they will be applied whenever the
+dark
+class is present earlier in the HTML tree:
+HTML
+<
+html
+class
+=
+"
+dark
+"
+>
+<
+body
+>
+<
+div
+class
+=
+"bg-white
+dark
+:bg-black
+"
+>
+<!-- ... -->
+</
+div
+>
+</
+body
+>
+</
+html
+>
+How you add the
+dark
+class to the
+html
+element is up to you, but a common approach is to use a bit of JavaScript that updates the
+class
+attribute and syncs that preference to somewhere like
+localStorage
+.
+Using a data attribute
+To use a data attribute instead of a class to activate dark mode, just override the
+dark
+variant with an attribute selector instead:
+app.css
+@import
+"tailwindcss"
+;
+@custom-variant
+dark (&:where([data-theme=dark], [data-theme=dark] *))
+;
+Now dark mode utilities will be applied whenever the
+data-theme
+attribute is set to
+dark
+somewhere up the tree:
+HTML
+<
+html
+data-theme
+=
+"dark"
+>
+<
+body
+>
+<
+div
+class
+=
+"bg-white
+dark:bg-black
+"
+>
+<!-- ... -->
+</
+div
+>
+</
+body
+>
+</
+html
+>
+With system theme support
+To build three-way theme toggles that support light mode, dark mode, and your system theme, use a custom dark mode selector and the
+window.matchMedia()
+API
+to detect the system theme and update the
+html
+element when needed.
+Here's a simple example of how you can support light mode, dark mode, as well as respecting the operating system preference:
+spaghetti.js
+// On page load or when changing themes, best to add inline in `head` to avoid FOUC
+document
+.
+documentElement
+.
+classList
+.
+toggle
+(
+"dark"
+,
+localStorage
+.
+theme
+===
+"dark"
+||
+(
+!
+(
+"theme"
+in
+localStorage
+)
+&&
+window
+.
+matchMedia
+(
+"(prefers-color-scheme: dark)"
+)
+.
+matches
+)
+,
+)
+;
+// Whenever the user explicitly chooses light mode
+localStorage
+.
+theme
+=
+"light"
+;
+// Whenever the user explicitly chooses dark mode
+localStorage
+.
+theme
+=
+"dark"
+;
+// Whenever the user explicitly chooses to respect the OS preference
+localStorage
+.
+removeItem
+(
+"theme"
+)
+;
+Again you can manage this however you like, even storing the preference server-side in a database and rendering the class on the server — it's totally up to you.
+Responsive design
+Theme variables
+On this page
+Overview
+Toggling dark mode manually
+Using a data attribute
+With system theme support
+Tailwind CSS
+Documentation
+Playground
+Blog
+Showcase
+Sponsor
+Resources
+Refactoring UI
+Headless UI
+Heroicons
+Hero Patterns
+Tailwind Plus
+UI Blocks
+Templates
+UI Kit
+Community
+GitHub
+Discord
+X
+Tailwind CSS
+Documentation
+Playground
+Blog
+Showcase
+Sponsor
+Tailwind Plus
+UI Blocks
+Templates
+UI Kit
+Resources
+Refactoring UI
+Headless UI
+Heroicons
+Hero Patterns
+Community
+GitHub
+Discord
+X
+Copyright © 2025 Tailwind Labs Inc.
+·
+Trademark Policy
