@@ -2,16 +2,28 @@ import "dotenv/config";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
 import { geminiEmbeddings, geminiLLM } from "./geminiLLM";
 
-const VECTOR_PATH = "faiss_store";
+import path from "path";
+const VECTOR_PATH = path.join(__dirname, "..", "faiss_store");
 
 async function search(question: string, framework: string) {
+  console.log(`Loading FAISS store from: ${VECTOR_PATH}`);
   const store = await FaissStore.load(VECTOR_PATH, geminiEmbeddings);
-  console.log("Store loaded!", store);
-  const results = await store.similaritySearch(
-    question,
-    5,
-    (doc: any) => doc.metadata.framework === framework // metadata filter
+
+  // First, let's verify the framework filter works
+  const allDocs = await store.similaritySearch(question, 10);
+  console.log(`Found ${allDocs.length} total documents`);
+
+  // Filter by framework
+  const frameworkDocs = allDocs.filter(
+    (doc) => doc.metadata.framework.toLowerCase() === framework.toLowerCase()
   );
+
+  console.log(
+    `Found ${frameworkDocs.length} documents for framework: ${framework}`
+  );
+
+  // Take top 5 from filtered results
+  const results = frameworkDocs.slice(0, 5);
 
   console.log("\nRetrieved Docs:\n");
   console.log(
@@ -42,7 +54,10 @@ If the answer is not in docs, reply: "Not in docs."
 }
 
 async function run() {
-  await search("how to use dependencies in fastapi?", "fastapi");
+  const question = "how to use dependencies in fastapi?";
+  const framework = "fastapi";
+  console.log(`Searching for: "${question}" in framework: ${framework}`);
+  await search(question, framework);
 }
 
-run();
+run().catch(console.error);
