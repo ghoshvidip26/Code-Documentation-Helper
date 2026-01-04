@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from "react";
-import { Send, Bot, User, Code, Zap, Menu, X, Copy } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Send, Code, Copy } from "lucide-react";
+import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -22,7 +22,7 @@ type Action =
   | { type: "SET_FRAMEWORK"; payload: string | null }
   | { type: "ADD_MESSAGE"; payload: Message }
   | { type: "SET_LOADING"; payload: boolean }
-  | { type: "LOAD_SAVED"; payload: State };
+  | { type: "SET_MESSAGES"; payload: Message[] };
 
 /* ---------------- REDUCER ---------------- */
 
@@ -40,8 +40,8 @@ function reducer(state: State, action: Action): State {
       return { ...state, messages: [...state.messages, action.payload] };
     case "SET_LOADING":
       return { ...state, loading: action.payload };
-    case "LOAD_SAVED":
-      return action.payload;
+    case "SET_MESSAGES":
+      return { ...state, messages: action.payload };
     default:
       return state;
   }
@@ -49,24 +49,16 @@ function reducer(state: State, action: Action): State {
 
 /* ---------------- STORAGE ---------------- */
 
-const STORAGE_KEY = "devstack-chat";
+const CHAT_KEY = "devstack-chat-id";
 
-function saveState(state: State) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch { }
-}
-
-function loadState(): State | null {
-  try {
-    const data = localStorage.getItem(STORAGE_KEY);
-    if (!data) return null;
-    return JSON.parse(data);
-  } catch {
-    return null;
+function getChatId() {
+  let id = localStorage.getItem(CHAT_KEY);
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem(CHAT_KEY, id);
   }
+  return id;
 }
-
 /* ---------------- STACK LIST ---------------- */
 
 const techStacks = [
@@ -97,16 +89,21 @@ const techStacks = [
 export default function Home() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [input, setInput] = useState("");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
-    const saved = loadState();
-    if (saved) dispatch({ type: "LOAD_SAVED", payload: saved });
+    async function loadHistory() {
+      try {
+        const res = await fetch(`http://localhost:3000/history`);
+        const data = await res.json();
+        const restoredMessages = data.flatMap((chat: any) => chat.history);
+        dispatch({ type: "SET_MESSAGES", payload: restoredMessages });
+      } catch (e) {
+        console.warn("History failed to load", e);
+      }
+    }
+
+    loadHistory();
   }, []);
-
-  useEffect(() => {
-    saveState(state);
-  }, [state]);
 
   async function callBackend(question: string) {
     dispatch({ type: "SET_LOADING", payload: true });
@@ -125,9 +122,8 @@ export default function Home() {
       if (!res.ok) throw new Error("Request failed");
 
       const data = await res.json();
-
-      // Safety check: ensure we don't pass an object to the UI (which crashes React)
-      const messageContent = typeof data === "string" ? data : (data.error || JSON.stringify(data));
+      const messageContent = data.answer;
+      console.log(messageContent);
 
       dispatch({
         type: "ADD_MESSAGE",
@@ -158,9 +154,7 @@ export default function Home() {
     await callBackend(question);
   };
 
-  const featuredStacks = techStacks.filter((t) =>
-    ["AWS", "Docker", "Express.js", "FastAPI", "React"].includes(t.name)
-  );
+  const featuredStacks = techStacks.slice(0, 6);
 
   return (
     <div className="flex flex-col h-screen bg-slate-950">
@@ -174,25 +168,20 @@ export default function Home() {
       <main className="flex flex-1 overflow-hidden">
 
         {/* SIDEBAR */}
-        <aside className="w-64 bg-slate-900 border-r border-slate-800 p-4 text-slate-200 hidden md:block">
-          {techStacks.map((tech) => (
+        <aside className="w-64 bg-slate-900 border-r border-slate-800 p-4 hidden md:block">
+          {techStacks.map((t) => (
             <motion.button
-              key={tech.name}
               whileHover={{ x: 6 }}
-              onClick={() =>
-                dispatch({ type: "SET_FRAMEWORK", payload: tech.name })
-              }
-              className={`px-4 py-2.5 rounded-lg flex items-center gap-3 text-sm font-medium transition-colors
-      ${state.framework === tech.name
-                  ? "bg-indigo-500 text-white shadow-sm"
-                  : "text-slate-100/80 hover:bg-slate-800/80"
+              key={t.name}
+              onClick={() => dispatch({ type: "SET_FRAMEWORK", payload: t.name })}
+              className={`w-full text-slate-200 px-3 py-2 rounded-lg text-left mb-1 ${state.framework === t.name
+                ? "bg-indigo-500"
+                : "hover:bg-slate-800"
                 }`}
             >
-              <span>{tech.icon}</span>
-              <span>{tech.name}</span>
+              {t.icon} {t.name}
             </motion.button>
           ))}
-
         </aside>
 
         {/* CHAT */}
@@ -206,7 +195,7 @@ export default function Home() {
                   onClick={() =>
                     dispatch({ type: "SET_FRAMEWORK", payload: tech.name })
                   }
-                  className={`px-4 py-2.5 rounded-lg flex items-center gap-3 text-sm font-medium transition-colors
+                  className={`px-4 py-2.5 rounded-lg flex items-center gap-3 text-sm font-medium transition-colors text-slate-200
       ${state.framework === tech.name
                       ? "bg-indigo-500 text-white shadow-sm"
                       : "text-slate-100/80 hover:bg-slate-800/80"
@@ -221,35 +210,27 @@ export default function Home() {
 
 
           {/* MESSAGES */}
-          <div className="flex-1 overflow-y-auto px-10 py-6 space-y-6">
-
-            {state.messages.map((m, i) => (
-              <div
-                key={i}
-                className={`flex ${m.role === "user" ? "justify-end" : "justify-start"
-                  }`}
-              >
+          <div className="flex-1 overflow-y-auto p-8 space-y-6">
+            {state.messages.map((m, idx) => (
+              <div key={idx} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`px-5 py-4 rounded-2xl max-w-3xl ${m.role === "user"
-                    ? "bg-indigo-500 text-white"
-                    : "bg-slate-800 border border-slate-700 text-slate-100"
+                  className={`px-5 py-4 text-slate-200 rounded-2xl max-w-3xl ${m.role === "user"
+                    ? "bg-indigo-500"
+                    : "bg-slate-800 border border-slate-700"
                     }`}
                 >
                   <ReactMarkdown
                     components={{
                       code({ inline, className, children, ...props }) {
                         const match = /language-(\w+)/.exec(className || "");
-
                         if (!inline && match) {
                           return (
                             <div className="relative group">
                               <button
+                                className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition"
                                 onClick={() =>
-                                  navigator.clipboard.writeText(
-                                    String(children)
-                                  )
+                                  navigator.clipboard.writeText(String(children))
                                 }
-                                className="absolute right-2 top-2 text-xs bg-slate-700 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition"
                               >
                                 <Copy size={14} />
                               </button>
@@ -257,8 +238,6 @@ export default function Home() {
                               <SyntaxHighlighter
                                 style={oneDark}
                                 language={match[1]}
-                                PreTag="div"
-                                {...props}
                               >
                                 {String(children).replace(/\n$/, "")}
                               </SyntaxHighlighter>
@@ -267,7 +246,7 @@ export default function Home() {
                         }
 
                         return (
-                          <code className="bg-slate-700 px-1 py-0.5 rounded">
+                          <code className="bg-slate-700 text-slate-200 px-1 rounded">
                             {children}
                           </code>
                         );
@@ -281,25 +260,19 @@ export default function Home() {
             ))}
 
             {state.loading && (
-              <p className="text-center text-slate-400">
-                Assistant is thinking…
-              </p>
+              <p className="text-center text-slate-400">Assistant is thinking…</p>
             )}
           </div>
-
           {/* INPUT */}
-          <form
-            onSubmit={handleSubmit}
-            className="px-6 py-4 bg-slate-900 border-t border-slate-800"
-          >
-            <div className="max-w-4xl mx-auto flex gap-3">
+          <form onSubmit={handleSubmit} className="p-4 bg-slate-900 border-t border-slate-800">
+            <div className="flex gap-3 max-w-4xl mx-auto">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={`Ask about ${state.framework || "any stack"}...`}
-                className="flex-1 px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white"
+                placeholder={`Ask about ${state.framework || "any stack"}…`}
+                className="flex-1 bg-slate-800 text-slate-200 border border-slate-700 px-4 py-3 rounded-xl"
               />
-              <button className="bg-indigo-500 px-4 rounded-xl text-white">
+              <button className="bg-indigo-500 text-slate-200 px-4 rounded-xl">
                 <Send />
               </button>
             </div>

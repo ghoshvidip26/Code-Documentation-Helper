@@ -101,6 +101,21 @@ app.post("/search", async (req, res) => {
   res.json({ answer });
 });
 
+app.get("/history", async (req, res) => {
+  try {
+    await dbConnect();
+
+    const history = await Chat.find().lean<IChat>();
+    console.log(history);
+
+    res.json(history);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch history" });
+  }
+});
+
+
 app.listen(3000, () => {
   console.log("Server started on port 3000");
 });
