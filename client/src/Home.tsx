@@ -1,7 +1,9 @@
 import { useEffect, useReducer, useState } from "react";
-import { Send, Bot, User, Code, Zap, Menu, X } from "lucide-react";
+import { Send, Bot, User, Code, Zap, Menu, X, Copy } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 /* ---------------- TYPES ---------------- */
 
@@ -34,16 +36,12 @@ function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "SET_FRAMEWORK":
       return { ...state, framework: action.payload };
-
     case "ADD_MESSAGE":
       return { ...state, messages: [...state.messages, action.payload] };
-
     case "SET_LOADING":
       return { ...state, loading: action.payload };
-
     case "LOAD_SAVED":
       return action.payload;
-
     default:
       return state;
   }
@@ -56,9 +54,7 @@ const STORAGE_KEY = "devstack-chat";
 function saveState(state: State) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch (e) {
-    console.log(e);
-  }
+  } catch { }
 }
 
 function loadState(): State | null {
@@ -88,81 +84,31 @@ const techStacks = [
   { name: "Redis", icon: "🔴" },
   { name: "Tailwind CSS", icon: "🎨" },
   { name: "TypeScript", icon: "📝" },
+  { name: "Node.js", icon: "🟢" },
+  { name: "GraphQL", icon: "🕸️" },
+  { name: "Kubernetes", icon: "☸️" },
+  { name: "Go", icon: "🐹" },
+  { name: "Python", icon: "🐍" },
+  { name: "Django", icon: "🌿" }
 ];
-
-const featuredStacks = techStacks.filter((t) =>
-  ["AWS", "Docker", "Express.js", "FastAPI", "React"].includes(t.name)
-);
 
 /* ---------------- COMPONENT ---------------- */
 
 export default function Home() {
-  /* Lazy initialization to prevent flash and stuck loading state */
-  const init = (defaultState: State): State => {
-    const saved = loadState();
-    if (saved) {
-      return { ...saved, loading: false };
-    }
-    return defaultState;
-  };
-
-  const [state, dispatch] = useReducer(reducer, initialState, init);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [input, setInput] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  /* Save on change */
+  useEffect(() => {
+    const saved = loadState();
+    if (saved) dispatch({ type: "LOAD_SAVED", payload: saved });
+  }, []);
+
   useEffect(() => {
     saveState(state);
   }, [state]);
 
-  /* Card submit */
-  const handleSubmitFromCard = async (question: string, framework: string) => {
-    if (state.loading) return;
-
-    dispatch({ type: "SET_LOADING", payload: true });
-
-    try {
-      const res = await fetch("http://localhost:3000/search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: question,
-          framework, // <-- use param
-          history: [...state.messages, { role: "user", content: question }],
-          //       ^-- include the message that was just sent
-        }),
-      });
-
-      const data = await res.json();
-
-      dispatch({
-        type: "ADD_MESSAGE",
-        payload: { role: "assistant", content: data ?? "No response" },
-      });
-    } catch {
-      dispatch({
-        type: "ADD_MESSAGE",
-        payload: { role: "assistant", content: "⚠️ Backend error." },
-      });
-    }
-
-    dispatch({ type: "SET_LOADING", payload: false });
-  };
-
-  /* Manual submit */
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
-
-    const question = input;
-    setInput("");
-
-    // Add user message to UI state
-    dispatch({
-      type: "ADD_MESSAGE",
-      payload: { role: "user", content: question },
-    });
-
+  async function callBackend(question: string) {
     dispatch({ type: "SET_LOADING", payload: true });
 
     try {
@@ -172,206 +118,188 @@ export default function Home() {
         body: JSON.stringify({
           query: question,
           framework: state.framework,
-          // Fix: Ensure we include the new message in the history sent to the backend
-          history: [...state.messages, { role: "user", content: question }],
+          history: state.messages,
         }),
       });
 
+      if (!res.ok) throw new Error("Request failed");
+
       const data = await res.json();
+
+      // Safety check: ensure we don't pass an object to the UI (which crashes React)
+      const messageContent = typeof data === "string" ? data : (data.error || JSON.stringify(data));
 
       dispatch({
         type: "ADD_MESSAGE",
-        payload: { role: "assistant", content: data ?? "No response" },
+        payload: { role: "assistant", content: messageContent ?? "No response" },
       });
     } catch {
       dispatch({
         type: "ADD_MESSAGE",
-        payload: { role: "assistant", content: "⚠️ Backend error." },
+        payload: { role: "assistant", content: "⚠️ Backend error. Please try again." },
       });
     }
 
     dispatch({ type: "SET_LOADING", payload: false });
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    const question = input;
+    setInput("");
+
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload: { role: "user", content: question },
+    });
+
+    await callBackend(question);
   };
+
+  const featuredStacks = techStacks.filter((t) =>
+    ["AWS", "Docker", "Express.js", "FastAPI", "React"].includes(t.name)
+  );
 
   return (
     <div className="flex flex-col h-screen bg-slate-950">
+
       {/* HEADER */}
-      <header className="bg-slate-900/95 backdrop-blur text-white shadow-md border-b border-slate-800">
-        <div className="px-8 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="md:hidden p-2 hover:bg-indigo-800 rounded-lg"
-            >
-              {isSidebarOpen ? <X /> : <Menu />}
-            </button>
-
-            <Code className="w-6 h-6 text-indigo-400" />
-            <h1 className="text-2xl font-semibold tracking-tight">
-              DevStack AI
-            </h1>
-          </div>
-
-          <div className="hidden md:flex items-center space-x-2 bg-emerald-500/10 px-3 py-1.5 rounded-full border border-emerald-400/40">
-            <span className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-            <p className="text-xs font-medium text-emerald-200 tracking-wide">
-              Assistant Ready
-            </p>
-          </div>
-        </div>
+      <header className="bg-slate-900 text-white border-b border-slate-800 px-8 py-3 flex items-center gap-3">
+        <Code className="w-6 h-6 text-indigo-400" />
+        <h1 className="text-xl font-semibold">DevStack AI</h1>
       </header>
 
-      <main className="flex flex-1 overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+      <main className="flex flex-1 overflow-hidden">
+
         {/* SIDEBAR */}
-        <AnimatePresence>
-          {isSidebarOpen && (
-            <motion.aside
-              initial={{ x: -250 }}
-              animate={{ x: 0 }}
-              exit={{ x: -250 }}
-              className="fixed md:static top-16 left-0 z-20 w-64 md:w-72 bg-slate-900/80 backdrop-blur text-slate-100 border-r border-slate-800 h-[calc(100vh-4rem)] flex flex-col"
+        <aside className="w-64 bg-slate-900 border-r border-slate-800 p-4 text-slate-200 hidden md:block">
+          {techStacks.map((tech) => (
+            <motion.button
+              key={tech.name}
+              whileHover={{ x: 6 }}
+              onClick={() =>
+                dispatch({ type: "SET_FRAMEWORK", payload: tech.name })
+              }
+              className={`px-4 py-2.5 rounded-lg flex items-center gap-3 text-sm font-medium transition-colors
+      ${state.framework === tech.name
+                  ? "bg-indigo-500 text-white shadow-sm"
+                  : "text-slate-100/80 hover:bg-slate-800/80"
+                }`}
             >
-              <div className="px-4 py-6 space-y-1 overflow-y-auto">
-                {techStacks.map((tech) => (
-                  <motion.button
-                    key={tech.name}
-                    whileHover={{ x: 6 }}
-                    className={`w-full px-4 py-2.5 rounded-lg flex items-center gap-3 text-sm font-medium transition-colors
-                      ${state.framework === tech.name
-                        ? "bg-indigo-500 text-white shadow-sm"
-                        : "text-slate-100/80 hover:bg-slate-800/80"
-                      }`}
-                    onClick={() =>
-                      dispatch({ type: "SET_FRAMEWORK", payload: tech.name })
-                    }
-                  >
-                    <span>{tech.icon}</span>
-                    <span>{tech.name}</span>
-                  </motion.button>
-                ))}
-              </div>
-            </motion.aside>
-          )}
-        </AnimatePresence>
+              <span>{tech.icon}</span>
+              <span>{tech.name}</span>
+            </motion.button>
+          ))}
 
-        {/* CHAT SECTION */}
+        </aside>
+
+        {/* CHAT */}
         <section className="flex-1 flex flex-col">
-          {/* Header strip */}
-          <div className="border-b border-slate-800/60 bg-slate-900/60 backdrop-blur px-10 py-3">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-              Conversation
-            </p>
-            <p className="text-sm text-slate-100 mt-1">
-              {state.framework
-                ? `${state.framework} · Developer Assistant`
-                : "Ask anything about your stack"}
-            </p>
-          </div>
-
-          {/* Chat body */}
-          <div className="flex-1 overflow-y-auto px-10 py-8 space-y-6 bg-slate-900/60">
-            {state.messages.length === 0 ? (
-              <>
-                <div className="text-center text-slate-300">
-                  <Zap className="w-14 h-14 mx-auto text-indigo-400" />
-                  <h2 className="text-xl font-semibold mt-4">
-                    Select a Tech Stack to start
-                  </h2>
-                  <p className="text-slate-400 mt-2 text-sm">
-                    Or ask anything related to development, architecture, or
-                    debugging.
-                  </p>
-                </div>
-
-                {/* Tech Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                  {featuredStacks.map((tech) => (
-                    <button
-                      key={tech.name}
-                      onClick={() => {
-                        dispatch({
-                          type: "SET_FRAMEWORK",
-                          payload: tech.name,
-                        });
-
-                        const q = `I want to know about ${tech.name}`;
-
-                        dispatch({
-                          type: "ADD_MESSAGE",
-                          payload: { role: "user", content: q },
-                        });
-
-                        handleSubmitFromCard(q, tech.name);
-                      }}
-                      className="group relative flex flex-col justify-between rounded-3xl border border-slate-800 bg-slate-900/80 px-6 py-5 text-left shadow-sm hover:border-slate-600 hover:bg-slate-900 transition-colors duration-200"
-                    >
-                      <div className="text-slate-200 text-sm font-medium">
-                        {tech.name}
-                      </div>
-
-                      <div className="mt-6 flex items-center justify-end gap-1.5">
-                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-800 text-[10px] text-slate-200">
-                          {tech.icon}
-                        </span>
-                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-indigo-500/90 text-[10px] text-white group-hover:bg-indigo-400">
-                          AI
-                        </span>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </>
-            ) : (
-              state.messages.map((m, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`flex ${m.role === "user" ? "justify-end" : "justify-start"
+          {state.messages.length === 0 && (
+            <div className="flex flex-row justify-center items-center h-screen gap-6 mx-auto">
+              {featuredStacks.map((tech) => (
+                <motion.button
+                  key={tech.name}
+                  whileHover={{ x: 6 }}
+                  onClick={() =>
+                    dispatch({ type: "SET_FRAMEWORK", payload: tech.name })
+                  }
+                  className={`px-4 py-2.5 rounded-lg flex items-center gap-3 text-sm font-medium transition-colors
+      ${state.framework === tech.name
+                      ? "bg-indigo-500 text-white shadow-sm"
+                      : "text-slate-100/80 hover:bg-slate-800/80"
                     }`}
                 >
-                  <div
-                    className={`px-5 py-4 rounded-2xl shadow-sm max-w-3xl ${m.role === "user"
-                      ? "bg-indigo-500 text-white"
-                      : "bg-slate-800/80 border border-slate-700 text-slate-100"
-                      }`}
-                  >
-                    <div className="flex items-center gap-2 text-sm opacity-80 mb-1">
-                      {m.role === "user" ? <User /> : <Bot />}
-                      {m.role === "user" ? "You" : "Assistant"}
-                    </div>
+                  <span>{tech.icon}</span>
+                  <span>{tech.name}</span>
+                </motion.button>
+              ))}
+            </div>
+          )}
 
-                    <ReactMarkdown>{m.content}</ReactMarkdown>
-                  </div>
-                </motion.div>
-              ))
-            )}
+
+          {/* MESSAGES */}
+          <div className="flex-1 overflow-y-auto px-10 py-6 space-y-6">
+
+            {state.messages.map((m, i) => (
+              <div
+                key={i}
+                className={`flex ${m.role === "user" ? "justify-end" : "justify-start"
+                  }`}
+              >
+                <div
+                  className={`px-5 py-4 rounded-2xl max-w-3xl ${m.role === "user"
+                    ? "bg-indigo-500 text-white"
+                    : "bg-slate-800 border border-slate-700 text-slate-100"
+                    }`}
+                >
+                  <ReactMarkdown
+                    components={{
+                      code({ inline, className, children, ...props }) {
+                        const match = /language-(\w+)/.exec(className || "");
+
+                        if (!inline && match) {
+                          return (
+                            <div className="relative group">
+                              <button
+                                onClick={() =>
+                                  navigator.clipboard.writeText(
+                                    String(children)
+                                  )
+                                }
+                                className="absolute right-2 top-2 text-xs bg-slate-700 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition"
+                              >
+                                <Copy size={14} />
+                              </button>
+
+                              <SyntaxHighlighter
+                                style={oneDark}
+                                language={match[1]}
+                                PreTag="div"
+                                {...props}
+                              >
+                                {String(children).replace(/\n$/, "")}
+                              </SyntaxHighlighter>
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <code className="bg-slate-700 px-1 py-0.5 rounded">
+                            {children}
+                          </code>
+                        );
+                      },
+                    }}
+                  >
+                    {m.content}
+                  </ReactMarkdown>
+                </div>
+              </div>
+            ))}
 
             {state.loading && (
-              <p className="text-center text-slate-400 text-xs uppercase animate-pulse">
+              <p className="text-center text-slate-400">
                 Assistant is thinking…
               </p>
             )}
           </div>
 
-          {/* INPUT BAR — ALWAYS HERE */}
+          {/* INPUT */}
           <form
             onSubmit={handleSubmit}
-            className="px-6 py-4 bg-slate-900/80 border-t border-slate-800"
+            className="px-6 py-4 bg-slate-900 border-t border-slate-800"
           >
-            <div className="relative max-w-4xl mx-auto flex items-center gap-3">
+            <div className="max-w-4xl mx-auto flex gap-3">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="w-full px-4 py-3 rounded-2xl border border-slate-700 bg-slate-900/80 text-slate-100 placeholder:text-slate-500 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/70 focus:border-indigo-500 text-sm"
-                placeholder={`Ask about ${state.framework || "any technology"
-                  }…`}
+                placeholder={`Ask about ${state.framework || "any stack"}...`}
+                className="flex-1 px-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-white"
               />
-
-              <button
-                type="submit"
-                className="shrink-0 inline-flex items-center justify-center rounded-xl bg-indigo-500 text-white px-4 py-2 text-sm font-medium shadow-sm hover:bg-indigo-400 transition-colors"
-              >
+              <button className="bg-indigo-500 px-4 rounded-xl text-white">
                 <Send />
               </button>
             </div>

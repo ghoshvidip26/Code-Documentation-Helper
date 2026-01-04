@@ -7,13 +7,13 @@ import {
 import { Document } from "langchain";
 
 export const geminiLLM = new ChatGoogleGenerativeAI({
-  model: "gemini-2.0-flash",
+  model: "gemini-3-flash-preview",
   maxRetries: 3,
   apiKey: process.env.GOOGLE_API_KEY!,
 });
 
 export const geminiEmbeddings = new GoogleGenerativeAIEmbeddings({
-  model: "gemini-embedding-001",
+  model: "text-embedding-004",
   apiKey: process.env.GOOGLE_API_KEY!,
   maxRetries: 3,
 });

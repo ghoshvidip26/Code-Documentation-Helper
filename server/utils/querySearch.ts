@@ -3,22 +3,45 @@ import path from "path";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
 import { geminiEmbeddings, geminiLLM } from "./geminiLLM";
 
-const VECTOR_ROOT = path.join(__dirname, "..", "faiss_store");
+const VECTOR_ROOT = path.join(process.cwd(), "faiss_store");
+
+function normalizeFrameworkName(name: string) {
+  return name
+    .toLowerCase()
+    .replace(/\s+/g, "")     // remove spaces
+    .replace(/[\._-]+/g, "") // remove ., _, -
+    .trim();
+}
+
 
 export async function search(
   question: string,
   framework: string,
   history: any[] = []
 ) {
-  const fw = framework.toLowerCase();
+  const fw = normalizeFrameworkName(framework);
+  
+  // Load the monolithic store from the parent directory
+  const storePath = VECTOR_ROOT;
 
-  const storePath = path.join(VECTOR_ROOT, fw);
+  console.log(`📂 Loading FAISS index from: ${storePath} for framework: ${fw}`);
 
-  console.log("📂 Loading FAISS index:", storePath);
+  let results: any[] = [];
+  try {
+    const store = await FaissStore.load(storePath, geminiEmbeddings);
+    console.log("✅ Store loaded successfully.");
 
-  const store = await FaissStore.load(storePath, geminiEmbeddings);
-
-  const results = await store.similaritySearch(question, 5);
+    // Filter results by framework in metadata
+    console.log(`🔎 Searching for: "${question}" with filter: { framework: "${fw}" }`);
+    
+    // Note: FaissStore filter argument in LangChain JS depends on the underlying implementation.
+    // If using faiss-node, standard metadata filtering applies.
+    results = await store.similaritySearch(question, 5, { framework: fw });
+    console.log(`✅ Found ${results.length} results.`);
+  } catch (err) {
+    console.error("❌ Error in search function:", err);
+    throw err;
+  }
 
   if (!results.length) return "Not in docs.";
 

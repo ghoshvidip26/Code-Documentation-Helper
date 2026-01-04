@@ -14,76 +14,70 @@ const splitter = new RecursiveCharacterTextSplitter({
   chunkOverlap: 200,
 });
 
-function cleanText(input: string) {
-  if (!input) return "";
-  return input
-    .replace(/\u0000/g, "") // remove null chars
-    .replace(/\s+/g, " ")   // collapse whitespace
-    .trim();
+function clean(text: string) {
+  return text.replace(/\u0000/g, "").trim();
 }
 
-async function loadFrameworkDocs(framework: string) {
-  const dir = path.join(DATASET_DIR, framework);
+async function loadFramework(name: string) {
+  const dir = path.join(DATASET_DIR, name);
   const files = fs.readdirSync(dir);
-
-  console.log(`📚 Ingesting ${framework}...`);
-  console.log(`Files:`, files);
-
   let docs: Document[] = [];
 
-  for (const file of files) {
-    const fullPath = path.join(dir, file);
-    const raw = fs.readFileSync(fullPath, "utf8");
+  for (const f of files) {
+    const raw = fs.readFileSync(path.join(dir, f), "utf8");
+    const cleaned = clean(raw);
 
-    const cleaned = cleanText(raw);
-    if (!cleaned || cleaned.length < 10) continue;
+    if (cleaned.length < 25) continue;
 
     docs.push(
       new Document({
         pageContent: cleaned,
-        metadata: { framework, source: file },
+        metadata: { framework: name, file: f },
       })
     );
   }
 
-  // Split into chunks
-  const chunks = await splitter.splitDocuments(docs);
-
-  console.log(`✔️  ${framework} chunks: ${chunks.length}`);
-  return chunks;
+  return splitter.splitDocuments(docs);
 }
 
 async function main() {
-  let allChunks: Document[] = [];
-
   const frameworks = fs.readdirSync(DATASET_DIR);
 
+  let allChunks: Document[] = [];
+
   for (const fw of frameworks) {
-    const chunks = await loadFrameworkDocs(fw);
+    const chunks = await loadFramework(fw);
+    console.log(`✔ ${fw} → ${chunks.length} chunks`);
     allChunks.push(...chunks);
   }
 
-  // FINAL SAFETY FILTER BEFORE EMBEDDING
-  allChunks = allChunks.filter(
-    (d) =>
-      d.pageContent &&
-      d.pageContent.trim().length > 10 &&
-      !d.pageContent.includes("undefined")
-  );
+  console.log(`\n🧠 Total chunks: ${allChunks.length}`);
 
-  console.log(`\nTotal chunks: ${allChunks.length}`);
+  // ---- CRASH-SAFE BATCH EMBEDDING ----
+  const BATCH = 50;
+  const vectors: any[] = [];
+  const metas: any[] = [];
 
-  // Build FAISS index
-  console.log("\n🚀 Building FAISS index...");
-  try {
-    const store = await FaissStore.fromDocuments(allChunks, geminiEmbeddings);
-    console.log("FAISS index built!");
-    await store.save(VECTOR_PATH);
-    console.log(`\n🎉 DONE — FAISS saved at: ${VECTOR_PATH}\n`);
-  } catch (error) {
-    console.log("Error creating FAISS index:", error);
-    process.exit(1);
+  for (let i = 0; i < allChunks.length; i += BATCH) {
+    const slice = allChunks.slice(i, i + BATCH);
+
+    const embeddings = await geminiEmbeddings.embedDocuments(
+      slice.map((d) => d.pageContent)
+    );
+
+    vectors.push(...embeddings);
+    metas.push(...slice);
+
+    console.log(`Embedded ${i + slice.length}/${allChunks.length}`);
+    await new Promise((r) => setTimeout(r, 150)); // small safety delay
   }
+
+  const store = new FaissStore(geminiEmbeddings, {});
+  await store.addVectors(vectors, metas);
+
+  await store.save(VECTOR_PATH);
+
+  console.log(`\n🎉 Saved FAISS to: ${VECTOR_PATH}\n`);
 }
 
 main();
