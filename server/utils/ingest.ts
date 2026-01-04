@@ -5,6 +5,7 @@ import { Document } from "@langchain/core/documents";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { FaissStore } from "@langchain/community/vectorstores/faiss";
 import { geminiEmbeddings } from "./geminiLLM";
+import { normalizeFrameworkAlias } from "./normalizeFramework";
 
 const DATASET_DIR = path.join(__dirname, "..", "docs_dataset");
 const VECTOR_PATH = path.join(__dirname, "..", "faiss_store");
@@ -21,18 +22,23 @@ function clean(text: string) {
 async function loadFramework(name: string) {
   const dir = path.join(DATASET_DIR, name);
   const files = fs.readdirSync(dir);
+
+  const normalized = normalizeFrameworkAlias(name);
+
   let docs: Document[] = [];
 
   for (const f of files) {
     const raw = fs.readFileSync(path.join(dir, f), "utf8");
     const cleaned = clean(raw);
-
     if (cleaned.length < 25) continue;
 
     docs.push(
       new Document({
         pageContent: cleaned,
-        metadata: { framework: name, file: f },
+        metadata: {
+          framework: normalized,   // 👈 VERY IMPORTANT
+          sourceFile: f,
+        },
       })
     );
   }
@@ -53,10 +59,10 @@ async function main() {
 
   console.log(`\n🧠 Total chunks: ${allChunks.length}`);
 
-  // ---- CRASH-SAFE BATCH EMBEDDING ----
+  // ---- crash-safe batching ----
   const BATCH = 50;
-  const vectors: any[] = [];
-  const metas: any[] = [];
+  const vectors: number[][] = [];
+  const metas: Document[] = [];
 
   for (let i = 0; i < allChunks.length; i += BATCH) {
     const slice = allChunks.slice(i, i + BATCH);
@@ -69,7 +75,7 @@ async function main() {
     metas.push(...slice);
 
     console.log(`Embedded ${i + slice.length}/${allChunks.length}`);
-    await new Promise((r) => setTimeout(r, 150)); // small safety delay
+    await new Promise((r) => setTimeout(r, 150));
   }
 
   const store = new FaissStore(geminiEmbeddings, {});

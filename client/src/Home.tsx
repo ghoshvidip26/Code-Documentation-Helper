@@ -5,8 +5,6 @@ import ReactMarkdown from "react-markdown";
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-/* ---------------- TYPES ---------------- */
-
 type Message = {
   role: "user" | "assistant";
   content: string;
@@ -23,8 +21,6 @@ type Action =
   | { type: "ADD_MESSAGE"; payload: Message }
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_MESSAGES"; payload: Message[] };
-
-/* ---------------- REDUCER ---------------- */
 
 const initialState: State = {
   framework: null,
@@ -46,20 +42,6 @@ function reducer(state: State, action: Action): State {
       return state;
   }
 }
-
-/* ---------------- STORAGE ---------------- */
-
-const CHAT_KEY = "devstack-chat-id";
-
-function getChatId() {
-  let id = localStorage.getItem(CHAT_KEY);
-  if (!id) {
-    id = crypto.randomUUID();
-    localStorage.setItem(CHAT_KEY, id);
-  }
-  return id;
-}
-/* ---------------- STACK LIST ---------------- */
 
 const techStacks = [
   { name: "AWS", icon: "☁️" },
@@ -93,17 +75,21 @@ export default function Home() {
   useEffect(() => {
     async function loadHistory() {
       try {
-        const res = await fetch(`http://localhost:3000/history`);
+        const res = await fetch(`http://localhost:3000/history/${state.framework}`);
         const data = await res.json();
-        const restoredMessages = data.flatMap((chat: any) => chat.history);
-        dispatch({ type: "SET_MESSAGES", payload: restoredMessages });
+        console.log(data?.history);
+
+        dispatch({
+          type: "SET_MESSAGES",
+          payload: Array.isArray(data?.history) ? data?.history : []
+        });
       } catch (e) {
         console.warn("History failed to load", e);
       }
     }
 
     loadHistory();
-  }, []);
+  }, [state.framework]);
 
   async function callBackend(question: string) {
     dispatch({ type: "SET_LOADING", payload: true });

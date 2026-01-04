@@ -75,30 +75,51 @@ async function run() {
 }
 
 app.post("/search", async (req, res) => {
-  const { query, chatId, framework } = req.body;
+  try {
+    await dbConnect();
 
-  await dbConnect();
+    const { query, framework } = req.body;
+    if (!framework) return res.status(400).json({ error: "Framework required" });
 
-  let chat = await Chat.findOne({ chatId }).lean<IChat>();
+    const chatId = framework.toLowerCase();
 
-  const history = chat?.history ?? [];
+    // 🟢 find or create chat thread
+    let chat = await Chat.findOne({ chatId });
 
-  const answer = await search(query, framework, history);
+    if (!chat) {
+      chat = await Chat.create({
+        chatId,
+        framework,
+        history: []
+      });
+    }
 
-  await Chat.updateOne(
-    { chatId },
-    {
-      $push: {
-        history: [
-          { role: "user", content: query },
-          { role: "assistant", content: answer }
-        ]
-      }
-    },
-    { upsert: true }
-  );
+    // 🟢 push user message
+    chat.history.push({
+      role: "user",
+      content: query
+    });
 
-  res.json({ answer });
+    await chat.save();
+
+    // call RAG
+    const answer = await search(query, framework, chat.history);
+    console.log(answer);
+
+    // 🟢 push assistant reply
+    chat.history.push({
+      role: "assistant",
+      content: answer
+    });
+
+    await chat.save();
+
+    res.json({ answer });
+
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: "Search failed" });
+  }
 });
 
 app.get("/history", async (req, res) => {
@@ -109,6 +130,24 @@ app.get("/history", async (req, res) => {
     console.log(history);
 
     res.json(history);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch history" });
+  }
+});
+
+app.get("/history/:framework", async (req, res) => {
+  try {
+    await dbConnect();
+
+    const chatId = req.params.framework.toLowerCase();
+    console.log(chatId);
+
+    const chat = await Chat.findOne({ chatId }).lean();
+    console.log(chat);
+
+    res.json(chat ?? []);
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch history" });
