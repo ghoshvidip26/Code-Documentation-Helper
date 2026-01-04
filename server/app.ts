@@ -8,6 +8,8 @@ import { geminiEmbeddings } from "./utils/geminiLLM";
 import express from "express";
 import cors from "cors";
 import { search } from "./utils/querySearch";
+import { dbConnect } from "./utils/mongodb";
+import Chat, { IChat } from "./db/schema";
 
 const app = express();
 app.use(cors());
@@ -73,19 +75,30 @@ async function run() {
 }
 
 app.post("/search", async (req, res) => {
-  try {
-    const { query, framework, history } = req.body;
+  const { query, chatId, framework } = req.body;
 
-    if (!framework)
-      return res.status(400).json({ error: "Framework required" });
+  await dbConnect();
 
-    const answer = await search(query, framework, history || []);
+  let chat = await Chat.findOne({ chatId }).lean<IChat>();
 
-    res.json(answer);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Search failed" });
-  }
+  const history = chat?.history ?? [];
+
+  const answer = await search(query, framework, history);
+
+  await Chat.updateOne(
+    { chatId },
+    {
+      $push: {
+        history: [
+          { role: "user", content: query },
+          { role: "assistant", content: answer }
+        ]
+      }
+    },
+    { upsert: true }
+  );
+
+  res.json({ answer });
 });
 
 app.listen(3000, () => {

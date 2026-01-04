@@ -1,21 +1,35 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema, Document } from "mongoose";
 
-export interface IChat extends Document {
-    role: string;
-    content: string;
-    chatId: string;
-    createdAt: Date;
-    updatedAt: Date;
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+  timestamp?: Date;
 }
 
-const chatSchema = new Schema<IChat>({
-    role: { type: String, required: true },
-    content: { type: String, required: true },
+export interface IChat extends Document {
+  chatId: string;
+  framework: string;
+  history: ChatMessage[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const messageSchema = new Schema<ChatMessage>({
+  role: { type: String, required: true },
+  content: { type: String, required: true },
+  timestamp: { type: Date, default: Date.now }
+});
+
+const chatSchema = new Schema<IChat>(
+  {
     chatId: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now },
-})
+    framework: { type: String, required: true },
+    history: { type: [messageSchema], default: [] }
+  },
+  { timestamps: true }
+);
 
-const Chat = mongoose.model<IChat>('Chat', chatSchema)
+const Chat =
+  mongoose.models.Chat || mongoose.model<IChat>("Chat", chatSchema);
 
-export default Chat
+export default Chat;
